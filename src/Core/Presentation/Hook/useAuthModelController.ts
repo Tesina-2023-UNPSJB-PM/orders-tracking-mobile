@@ -2,11 +2,12 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AuthRepository} from '../../Domain/Repository/AuthRepository';
 import {login} from '../../Domain/UseCase/LoginUseCase';
 import { Unsubscribe } from 'redux';
+import { MAIN_ROUTES } from '../Constants/RoutesConstants';
 
 export function useAuthModelController(authRepository: AuthRepository) {
   const logout = (navigation: NativeStackNavigationProp<any, 'Login'>) => {
     authRepository.logout();
-    navigation.navigate('Auth');
+    navigation.navigate(MAIN_ROUTES.AUTH);
   }
 
   const subscribeCurrentUser = (handler: () => void): Unsubscribe => {
@@ -21,7 +22,7 @@ export function useAuthModelController(authRepository: AuthRepository) {
     password: string,
   ) => {
     await login(username, password, authRepository);
-    navigation.navigate('Home');
+    navigation.navigate(MAIN_ROUTES.HOME);
   };
 
   return {

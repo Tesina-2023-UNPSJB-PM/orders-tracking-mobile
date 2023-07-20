@@ -1,6 +1,6 @@
 import { Button } from 'react-native';
-import { AuthRepository } from '../Domain/Repository/AuthRepository';
-import { useAuthModelController } from './Hook/useAuthModelController';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { useAuthModelController } from '../Hook/useAuthModelController';
 
 type LogoutButtonComponentProps = {
   navigation: any;

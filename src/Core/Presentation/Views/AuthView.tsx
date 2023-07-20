@@ -1,5 +1,5 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useState} from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {AuthRepository} from '../Domain/Repository/AuthRepository';
-import {useAuthModelController} from './Hook/useAuthModelController';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { useAuthModelController } from '../Hook/useAuthModelController';
 
 type AuthViewProps = {
   route: any;
@@ -24,7 +24,7 @@ export function AuthView({navigation, authRepository}: AuthViewProps) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../../Assets/Icons/tracking.png')} />
+      <Image style={styles.image} source={require('../../../Assets/Icons/tracking.png')} />
 
       <View style={styles.inputView}>
         <TextInput
