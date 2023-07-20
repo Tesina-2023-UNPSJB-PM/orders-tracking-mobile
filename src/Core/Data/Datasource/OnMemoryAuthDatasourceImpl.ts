@@ -1,8 +1,8 @@
-import {Unsubscribe} from 'redux';
-import {User} from '../../Domain/Model/AuthModel';
-import {clearCurrentUser, setCurrentUser} from '../Redux/Actions/UserActions';
+import { Unsubscribe } from 'redux';
+import { User } from '../../Domain/Model/AuthModel';
+import { clearCurrentUser, setCurrentUser } from '../Redux/Actions/UserActions';
 import store from '../Redux/Store';
-import {AuthDataSource} from './AuthDatasource';
+import { AuthDataSource } from './AuthDatasource';
 
 export class OnMemoryAuthDataSourceImpl implements AuthDataSource {
   private _users: User[] = [
@@ -33,7 +33,7 @@ export class OnMemoryAuthDataSourceImpl implements AuthDataSource {
     return user.currentUser;
   }
 
-  async getUser(username: string, password: string): Promise<User | undefined> {
+  async findUser(username: string, password: string): Promise<User | undefined> {
     return this._users.find(
       ({username: _username, password: _password}) =>
         _username === username && _password === password,

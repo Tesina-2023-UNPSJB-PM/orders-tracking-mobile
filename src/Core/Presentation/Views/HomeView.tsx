@@ -1,9 +1,9 @@
-import {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {useAuthModelController} from '../Hook/useAuthModelController';
-import {makeStyles, useTheme} from '@rneui/themed';
-import {Card} from '@rneui/base';
+import { Card } from '@rneui/base';
+import { makeStyles } from '@rneui/themed';
+import { useEffect } from 'react';
+import { Text, View } from 'react-native';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { useAuthModelController } from '../Hook/useAuthModelController';
 
 type HomeViewProps = {
   authRepository: AuthRepository;

@@ -1,7 +1,7 @@
-import {Unsubscribe} from 'redux';
-import {User} from '../../Domain/Model/AuthModel';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {AuthDataSource} from '../Datasource/AuthDatasource';
+import { Unsubscribe } from 'redux';
+import { User } from '../../Domain/Model/AuthModel';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { AuthDataSource } from '../Datasource/AuthDatasource';
 
 export class AuthRepositoryImpl implements AuthRepository {
   private authDataSource: AuthDataSource;
@@ -15,7 +15,7 @@ export class AuthRepositoryImpl implements AuthRepository {
 
     if (currentUser?.username === username) return currentUser;
 
-    const user = await this.authDataSource.getUser(username, password);
+    const user = await this.authDataSource.findUser(username, password);
 
     if (!user) throw new Error('Error: User not found.');
 
