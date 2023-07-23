@@ -14,11 +14,13 @@ import {ThemeProvider, createTheme} from '@rneui/themed';
 
 const theme = createTheme({
   lightColors: {
-    primary: '#22223B',
+    primary: '#4A4E69',
+    secondary: '#22223B',
     background: '#F2E9E4',
   },
   darkColors: {
-    primary: '#22223B',
+    primary: '#4A4E69',
+    secondary: '#22223B',
     background: '#F2E9E4',
   }
 });

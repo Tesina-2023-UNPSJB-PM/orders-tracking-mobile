@@ -1,4 +1,5 @@
 export const MAIN_ROUTES = {
     AUTH: 'Auth',
-    HOME: 'Home'
+    HOME: 'Home',
+    TABS: 'Tabs'
 }

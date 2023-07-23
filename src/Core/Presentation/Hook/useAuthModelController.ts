@@ -22,7 +22,7 @@ export function useAuthModelController(authRepository: AuthRepository) {
     password: string,
   ) => {
     await login(username, password, authRepository);
-    navigation.navigate(MAIN_ROUTES.HOME);
+    navigation.navigate(MAIN_ROUTES.TABS);
   };
 
   return {

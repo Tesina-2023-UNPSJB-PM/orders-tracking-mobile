@@ -11,6 +11,7 @@ import {HomeView} from './Views/HomeView';
 import {AuthRepository} from '../Domain/Repository/AuthRepository';
 import {MAIN_ROUTES} from './Constants/RoutesConstants';
 import {useTheme} from '@rneui/themed';
+import { MyTabsView } from './Views/MyTabsView';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -33,13 +34,13 @@ export function MainRoutesView() {
           {props => <AuthView {...props} authRepository={authRepository} />}
         </Stack.Screen>
         <Stack.Screen
-          name={MAIN_ROUTES.HOME}
+          name={MAIN_ROUTES.TABS}
           options={({navigation}) => ({
             headerStyle: {backgroundColor: theme.colors.background},
             headerBackVisible: false,
             headerRight: () => LogoutButtonHeader(navigation, authRepository),
           })}>
-          {props => <HomeView {...props} authRepository={authRepository} />}
+          {props => <MyTabsView {...props} authRepository={authRepository} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
