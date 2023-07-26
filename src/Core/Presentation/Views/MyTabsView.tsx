@@ -7,8 +7,8 @@ const Tab = createMaterialBottomTabNavigator();
 export function MyTabsView({authRepository}: any) {
   return (
     <Tab.Navigator barStyle={{backgroundColor: '#C9ADA7',}} inactiveColor='#4A4E69'>
-      <Tab.Screen  name="Home" children={props => <HomeView {...props}  authRepository={authRepository}/>}/>
-      <Tab.Screen name="Maps" children={props => <OrdersMapView/>}/>
+      <Tab.Screen name="Home" children={props => <HomeView {...props}  authRepository={authRepository}/>}/>
+      <Tab.Screen name="Maps" children={() => <OrdersMapView/>}/>
     </Tab.Navigator>
   );
 }

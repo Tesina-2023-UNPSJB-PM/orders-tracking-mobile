@@ -15,7 +15,7 @@ export class AuthRepositoryImpl implements AuthRepository {
 
     if (currentUser?.username === username) return currentUser;
 
-    const user = await this.authDataSource.findUser(username, password);
+    const user = await this.authDataSource.authUser(username, password);
 
     if (!user) throw new Error('Error: User not found.');
 
