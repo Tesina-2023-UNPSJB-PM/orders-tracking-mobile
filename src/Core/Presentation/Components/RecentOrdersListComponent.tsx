@@ -1,6 +1,6 @@
-import {Card, Icon, ListItem} from '@rneui/base';
-import {makeStyles} from '@rneui/themed';
-import {Text, View} from 'react-native';
+import { Card, ListItem } from '@rneui/base';
+import { makeStyles } from '@rneui/themed';
+import { View } from 'react-native';
 
 export function RecentOrdersListComponent() {
   const styles = useStyles();
@@ -11,11 +11,11 @@ export function RecentOrdersListComponent() {
   ];
   return (
     <Card containerStyle={styles.card}>
-      <Card.Title>Última Actividad</Card.Title>
+      <Card.Title>Tu Última Actividad</Card.Title>
       <Card.Divider></Card.Divider>
       <View>
-        {recentOrders.map((recentOrder, index) => (
-          <ListItem id={`${index}`} bottomDivider>
+        {recentOrders.map((recentOrder) => (
+          <ListItem key={`${recentOrder.title}`} bottomDivider>
             <ListItem.Content>
               <ListItem.Title>{recentOrder.title}</ListItem.Title>
               <ListItem.Subtitle>{recentOrder.subtitle}</ListItem.Subtitle>

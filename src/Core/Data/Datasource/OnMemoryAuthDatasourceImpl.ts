@@ -33,7 +33,7 @@ export class OnMemoryAuthDataSourceImpl implements AuthDataSource {
     return user.currentUser;
   }
 
-  async findUser(username: string, password: string): Promise<User | undefined> {
+  async authUser(username: string, password: string): Promise<User | undefined> {
     return this._users.find(
       ({username: _username, password: _password}) =>
         _username === username && _password === password,

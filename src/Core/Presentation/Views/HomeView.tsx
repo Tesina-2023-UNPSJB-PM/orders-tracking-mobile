@@ -1,11 +1,10 @@
-import {Card, Tab} from '@rneui/base';
-import {makeStyles} from '@rneui/themed';
-import {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {useAuthModelController} from '../Hook/useAuthModelController';
-import {CurrentStatusCardComponent} from '../Components/CurrentStatusCardComponent';
-import {RecentOrdersListComponent} from '../Components/RecentOrdersListComponent';
+import { makeStyles } from '@rneui/themed';
+import { useEffect } from 'react';
+import { View } from 'react-native';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardComponent';
+import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
+import { useAuthModelController } from '../Hook/useAuthModelController';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
@@ -15,7 +14,6 @@ export function HomeView({authRepository}: HomeViewProps) {
   const styles = useStyles();
   const {getCurrentUser, subscribeCurrentUser} =
     useAuthModelController(authRepository);
-  const currentUser = getCurrentUser();
 
   useEffect(() => {
     subscribeCurrentUser(() => {
