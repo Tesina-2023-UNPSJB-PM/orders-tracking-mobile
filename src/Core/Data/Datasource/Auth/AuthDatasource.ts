@@ -1,5 +1,5 @@
 import { Unsubscribe } from "redux";
-import { User } from "../../Domain/Model/AuthModel";
+import { User } from "../../../Domain/Model/AuthModel";
 
 /**
  * DataSource access interface

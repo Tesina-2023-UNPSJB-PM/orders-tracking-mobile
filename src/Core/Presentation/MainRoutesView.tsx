@@ -4,7 +4,7 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import { useTheme } from '@rneui/themed';
-import { RestAuthDatasourceImpl } from '../Data/Datasource/RestAuthDatasourceImpl';
+import { RestAuthDatasourceImpl } from '../Data/Datasource/Auth/RestAuthDatasourceImpl';
 import { AuthRepositoryImpl } from '../Data/Repository/AuthRepositoryImpl';
 import { AuthRepository } from '../Domain/Repository/AuthRepository';
 import { CurrentUserAvatarComponent } from './Components/CurrentUserAvatarComponent';
@@ -46,7 +46,7 @@ export function MainRoutesView() {
             headerLeft: () => AvatarButtonHeader(authRepository),
             headerRight: () => LogoutButtonHeader(navigation, authRepository),
           })}>
-          {props => <MyTabsView {...props} authRepository={authRepository} />}
+          {props => <MyTabsView {...props} authRepository={authRepository}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

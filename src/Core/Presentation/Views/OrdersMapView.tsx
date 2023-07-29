@@ -1,20 +1,42 @@
 import {makeStyles} from '@rneui/themed';
-import {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
+import {TrackingOrdersMapComponent} from '../Components/TrackingOrdersMapComponent';
+import {LocationRepository} from '../../Domain/Repository/LocationRepository';
+import {useEffect, useState, useTransition} from 'react';
+import Geolocation from 'react-native-geolocation-service';
+import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import {APP_LOCATION_PERMISSIONS} from '../Constants/MapsConstants';
+import {useOrdersMapsModelController} from '../Hook/useOrdersMapsModelController';
 
-// import config in the header
-import Config from 'react-native-config';
+type OrdersMapViewOptions = {
+  locationRepository: LocationRepository;
+};
 
-export function OrdersMapView() {
+export function OrdersMapView({locationRepository}: OrdersMapViewOptions) {
   const styles = useStyles();
 
+  const {watchPosition} = useOrdersMapsModelController();
+
+  const [currentLocation, setCurrentLocation] =
+    useState<Geolocation.GeoPosition>();
+
   useEffect(() => {
-    // or all variables
-    console.log(Config);
+    watchPosition(
+      position => {
+        console.log(position);
+        setCurrentLocation(position);
+      },
+      error => console.error(error),
+      {
+        enableHighAccuracy: true,
+      },
+    );
   });
+
   return (
     <View style={styles.container}>
-      <Text>En construcción!</Text>
+      <TrackingOrdersMapComponent
+        currentLocation={currentLocation}></TrackingOrdersMapComponent>
     </View>
   );
 }
@@ -25,5 +47,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
+    height: '100%',
   },
 }));
