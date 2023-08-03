@@ -1,21 +1,19 @@
 import {StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {
-  APP_INITIAL_REGION,
-  APP_MAP_STYLE,
-  APP_MIN_ZOOM_LEVEL,
-} from '../Constants/MapsConstants';
+import MapView, {Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps';
+import {APP_MAP_STYLE, APP_MIN_ZOOM_LEVEL} from '../Constants/MapsConstants';
 
-import Geolocation from 'react-native-geolocation-service';
-import { Icon } from '@rneui/themed';
+import {Icon} from '@rneui/themed';
+import {Location} from 'react-native-location';
 
 type TrackingOrdersMapComponentOptions = {
-  currentLocation: Geolocation.GeoPosition | undefined;
+  currentLocation: Location | undefined;
+  region: Region;
 };
 
 export function TrackingOrdersMapComponent({
   currentLocation,
+  region,
 }: TrackingOrdersMapComponentOptions) {
   const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
 
@@ -24,17 +22,18 @@ export function TrackingOrdersMapComponent({
       <MapView
         style={styles.map}
         minZoomLevel={APP_MIN_ZOOM_LEVEL}
+        maxZoomLevel={APP_MIN_ZOOM_LEVEL}
         provider={PROVIDER_GOOGLE}
-        initialRegion={APP_INITIAL_REGION}
+        region={region}
         customMapStyle={APP_MAP_STYLE}>
         {currentLocation && (
           <Marker
             title="Tu posición actual!"
             coordinate={{
-              latitude: currentLocation.coords.latitude,
-              longitude: currentLocation.coords.longitude,
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
             }}>
-            {/* <Icon name="navigate" type='material-community' size={25}/> */}
+            <Icon name="man" type="entypo" size={25} />
           </Marker>
         )}
       </MapView>

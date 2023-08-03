@@ -1,8 +1,9 @@
-export type WatchPositionOptions = any;
-export type InitializeOptions = any;
+import {Location} from 'react-native-location';
+
+export type WatchPositionOptions = {
+  success: (locations: Location[]) => void;
+};
 
 export interface LocationRepository {
-    initialize(options: InitializeOptions): void;
-
-    watchPosition(options: WatchPositionOptions): any;
+  watchPosition(options: WatchPositionOptions): Promise<void>;
 }

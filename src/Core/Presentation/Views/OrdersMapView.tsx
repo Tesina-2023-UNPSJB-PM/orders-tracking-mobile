@@ -1,11 +1,10 @@
 import {makeStyles} from '@rneui/themed';
+import {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {TrackingOrdersMapComponent} from '../Components/TrackingOrdersMapComponent';
+import {Location} from 'react-native-location';
 import {LocationRepository} from '../../Domain/Repository/LocationRepository';
-import {useEffect, useState, useTransition} from 'react';
-import Geolocation from 'react-native-geolocation-service';
-import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
-import {APP_LOCATION_PERMISSIONS} from '../Constants/MapsConstants';
+import {TrackingOrdersMapComponent} from '../Components/TrackingOrdersMapComponent';
+import {APP_INITIAL_REGION} from '../Constants/MapsConstants';
 import {useOrdersMapsModelController} from '../Hook/useOrdersMapsModelController';
 
 type OrdersMapViewOptions = {
@@ -15,28 +14,34 @@ type OrdersMapViewOptions = {
 export function OrdersMapView({locationRepository}: OrdersMapViewOptions) {
   const styles = useStyles();
 
-  const {watchPosition} = useOrdersMapsModelController();
+  const {watchPosition} = useOrdersMapsModelController(locationRepository);
 
-  const [currentLocation, setCurrentLocation] =
-    useState<Geolocation.GeoPosition>();
+  const [currentLocation, setCurrentLocation] = useState<Location>();
+
+  const [region, setRegion] = useState(APP_INITIAL_REGION);
 
   useEffect(() => {
-    watchPosition(
-      position => {
-        console.log(position);
-        setCurrentLocation(position);
+    console.log('--- useEffect ---');
+
+    watchPosition({
+      success: ([location]: Location[]) => {
+        console.log('newPosition: ->', location);
+        setCurrentLocation(location);
+        setRegion({
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0,
+          longitudeDelta: 0,
+        });
       },
-      error => console.error(error),
-      {
-        enableHighAccuracy: true,
-      },
-    );
-  });
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
       <TrackingOrdersMapComponent
-        currentLocation={currentLocation}></TrackingOrdersMapComponent>
+        currentLocation={currentLocation}
+        region={region}></TrackingOrdersMapComponent>
     </View>
   );
 }

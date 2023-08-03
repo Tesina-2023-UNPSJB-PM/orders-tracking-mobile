@@ -1,5 +1,5 @@
-import {Platform} from 'react-native';
-import {PERMISSIONS} from 'react-native-permissions';
+import { Platform } from 'react-native';
+import { PERMISSIONS } from 'react-native-permissions';
 
 export const APP_MIN_ZOOM_LEVEL = 14;
 export const APP_INITIAL_REGION = {
