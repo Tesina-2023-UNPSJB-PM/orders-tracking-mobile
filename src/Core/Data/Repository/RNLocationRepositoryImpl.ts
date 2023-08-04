@@ -8,13 +8,17 @@ import {
   APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG,
 } from '../Constants/RNLocationConstants';
 import {LocationDatasource} from '../Datasource/Location/LocationDatasource';
+import {AuthDataSource} from '../Datasource/_index';
 
 export class RNLocationRepositoryImpl implements LocationRepository {
   private locationSubscription: Subscription | undefined = undefined;
 
-  constructor(private locationDatasource: LocationDatasource) {}
+  constructor(
+    private locationDatasource: LocationDatasource,
+    private authDatasource: AuthDataSource,
+  ) {}
 
-  private removeSubscription(): void {
+  public removeSubscription(): void {
     this.locationSubscription?.();
   }
 
@@ -31,7 +35,19 @@ export class RNLocationRepositoryImpl implements LocationRepository {
     this.locationSubscription = RNLocation.subscribeToLocationUpdates(
       locations => {
         success(locations);
-        this.locationDatasource.sendLocation({location: locations[0]});
+        const [location] = locations;
+        const currentUser = this.authDatasource.getCurrentUser();
+        if (currentUser) {
+          const {username, firstName, lastName} = currentUser;
+          this.locationDatasource.sendLocation({
+            location: {
+              latitude: location.latitude,
+              longitude: location.longitude,
+            },
+            employee: {username, firstName, lastName},
+            employeeStatus: 'on_duty',
+          });
+        }
       },
     );
   }

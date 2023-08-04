@@ -34,7 +34,10 @@ export function MainRoutesView() {
   const dataSource = new RestAuthDatasourceImpl();
   const authRepository = new AuthRepositoryImpl(dataSource);
   const locationDatasource = new PubNubLocationDatasourceImpl();
-  const locationRepository = new RNLocationRepositoryImpl(locationDatasource);
+  const locationRepository = new RNLocationRepositoryImpl(
+    locationDatasource,
+    dataSource,
+  );
   const {theme} = useTheme();
   return (
     <NavigationContainer>

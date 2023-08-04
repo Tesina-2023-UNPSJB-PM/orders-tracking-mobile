@@ -21,11 +21,8 @@ export function OrdersMapView({locationRepository}: OrdersMapViewOptions) {
   const [region, setRegion] = useState(APP_INITIAL_REGION);
 
   useEffect(() => {
-    console.log('--- useEffect ---');
-
     watchPosition({
       success: ([location]: Location[]) => {
-        console.log('newPosition: ->', location);
         setCurrentLocation(location);
         setRegion({
           latitude: location.latitude,
