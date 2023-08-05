@@ -1,17 +1,19 @@
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
-import { useTheme } from '@rneui/themed';
-import { RestAuthDatasourceImpl } from '../Data/Datasource/RestAuthDatasourceImpl';
-import { AuthRepositoryImpl } from '../Data/Repository/AuthRepositoryImpl';
-import { AuthRepository } from '../Domain/Repository/AuthRepository';
-import { CurrentUserAvatarComponent } from './Components/CurrentUserAvatarComponent';
-import { LogoutButtonComponent } from './Components/LogoutButtonComponent';
-import { MAIN_ROUTES } from './Constants/RoutesConstants';
-import { AuthView } from './Views/AuthView';
-import { MyTabsView } from './Views/MyTabsView';
+import {useTheme} from '@rneui/themed';
+import {RestAuthDatasourceImpl} from '../Data/Datasource/Auth/RestAuthDatasourceImpl';
+import {AuthRepositoryImpl} from '../Data/Repository/AuthRepositoryImpl';
+import {AuthRepository} from '../Domain/Repository/AuthRepository';
+import {CurrentUserAvatarComponent} from './Components/CurrentUserAvatarComponent';
+import {LogoutButtonComponent} from './Components/LogoutButtonComponent';
+import {MAIN_ROUTES} from './Constants/RoutesConstants';
+import {AuthView} from './Views/AuthView';
+import {MyTabsView} from './Views/MyTabsView';
+import {RNLocationRepositoryImpl} from '../Data/Repository/RNLocationRepositoryImpl';
+import {PubNubLocationDatasourceImpl} from '../Data/Datasource/Location/PubNubLocationDatasourceImpl';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -31,6 +33,11 @@ export function MainRoutesView() {
   const Stack = createNativeStackNavigator();
   const dataSource = new RestAuthDatasourceImpl();
   const authRepository = new AuthRepositoryImpl(dataSource);
+  const locationDatasource = new PubNubLocationDatasourceImpl();
+  const locationRepository = new RNLocationRepositoryImpl(
+    locationDatasource,
+    dataSource,
+  );
   const {theme} = useTheme();
   return (
     <NavigationContainer>
@@ -46,7 +53,13 @@ export function MainRoutesView() {
             headerLeft: () => AvatarButtonHeader(authRepository),
             headerRight: () => LogoutButtonHeader(navigation, authRepository),
           })}>
-          {props => <MyTabsView {...props} authRepository={authRepository} />}
+          {props => (
+            <MyTabsView
+              {...props}
+              authRepository={authRepository}
+              locationRepository={locationRepository}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

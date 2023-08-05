@@ -1,2 +1,2 @@
-export {type AuthDataSource} from './AuthDatasource';
-export {OnMemoryAuthDataSourceImpl} from './OnMemoryAuthDatasourceImpl';
+export {type AuthDataSource} from './Auth/AuthDatasource';
+export {OnMemoryAuthDataSourceImpl} from './Auth/OnMemoryAuthDatasourceImpl';

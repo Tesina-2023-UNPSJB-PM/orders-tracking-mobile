@@ -1,0 +1,54 @@
+import RNLocation, {Subscription} from 'react-native-location';
+import {
+  LocationRepository,
+  WatchPositionOptions,
+} from '../../Domain/Repository/LocationRepository';
+import {
+  APP_DEFAULT_LOCATION_CONFIG,
+  APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG,
+} from '../Constants/RNLocationConstants';
+import {LocationDatasource} from '../Datasource/Location/LocationDatasource';
+import {AuthDataSource} from '../Datasource/_index';
+
+export class RNLocationRepositoryImpl implements LocationRepository {
+  private locationSubscription: Subscription | undefined = undefined;
+
+  constructor(
+    private locationDatasource: LocationDatasource,
+    private authDatasource: AuthDataSource,
+  ) {}
+
+  public removeSubscription(): void {
+    this.locationSubscription?.();
+  }
+
+  public async watchPosition({success}: WatchPositionOptions): Promise<void> {
+    this.removeSubscription();
+    const granted = await RNLocation.requestPermission(
+      APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG,
+    );
+
+    if (!granted) return;
+
+    RNLocation.configure(APP_DEFAULT_LOCATION_CONFIG);
+
+    this.locationSubscription = RNLocation.subscribeToLocationUpdates(
+      locations => {
+        success(locations);
+        const [location] = locations;
+        const currentUser = this.authDatasource.getCurrentUser();
+        if (currentUser) {
+          const {username, firstName, lastName} = currentUser;
+          this.locationDatasource.sendLocation({
+            location: {
+              latitude: location.latitude,
+              longitude: location.longitude,
+            },
+            employee: {username, firstName, lastName},
+            employeeStatus: 'on_duty',
+          });
+        }
+      },
+    );
+  }
+}

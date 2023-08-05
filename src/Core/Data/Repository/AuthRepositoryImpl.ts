@@ -1,7 +1,7 @@
 import { Unsubscribe } from 'redux';
 import { User } from '../../Domain/Model/AuthModel';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
-import { AuthDataSource } from '../Datasource/AuthDatasource';
+import { AuthDataSource } from '../Datasource/Auth/AuthDatasource';
 
 export class AuthRepositoryImpl implements AuthRepository {
   private authDataSource: AuthDataSource;

@@ -1,7 +1,7 @@
 import {Unsubscribe} from 'redux';
-import {User} from '../../Domain/Model/AuthModel';
-import {clearCurrentUser, setCurrentUser} from '../Redux/Actions/UserActions';
-import store from '../Redux/Store';
+import {User} from '../../../Domain/Model/AuthModel';
+import {clearCurrentUser, setCurrentUser} from '../../Redux/Actions/UserActions';
+import store from '../../Redux/Store';
 import {AuthDataSource} from './AuthDatasource';
 import axios from 'axios';
 
