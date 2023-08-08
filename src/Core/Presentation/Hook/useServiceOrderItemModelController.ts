@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import {ServiceOrdersRepository} from '../../Domain/Repository/ServiceOrdersRepository';
+import {EmployeeOrdersSummary} from '../../Domain/Model/EmployeeOrdersSummary';
 
 export type RecentActivityListItem = {
   title: string;
@@ -12,23 +13,11 @@ export type RecentActivityListItem = {
 export function useServiceOrderItemModelController(
   serviceOrdersRepository: ServiceOrdersRepository,
 ) {
-  const countAssignedPendingOrders = () => {
-    return serviceOrdersRepository.countAssignedPendingOrders();
-  };
-
-  const getRecentActivity = (): Promise<RecentActivityListItem[]> => {
-    return serviceOrdersRepository.getRecentActivity().then(orders =>
-      orders.map(({description: title, execution, status}) => ({
-        title,
-        subtitle: dayjs.utc(execution.resolutionTime).format('HH:mm'),
-        statusIcon: status.code === 'DONE' ? 'checkcircle' : 'closecircle',
-        statusColor: status.code === 'DONE' ? 'green' : 'red',
-      })),
-    );
+  const getEmployeeOrdersSummary = (): Promise<EmployeeOrdersSummary> => {
+    return serviceOrdersRepository.getEmployeeOrdersSummary();
   };
 
   return {
-    countAssignedPendingOrders,
-    getRecentActivity,
+    getEmployeeOrdersSummary,
   };
 }

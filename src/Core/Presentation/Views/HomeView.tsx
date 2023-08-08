@@ -1,27 +1,27 @@
-import { makeStyles } from '@rneui/themed';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { AuthRepository } from '../../Domain/Repository/AuthRepository';
-import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
-import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardComponent';
-import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
+import {makeStyles} from '@rneui/themed';
+import {useEffect, useState} from 'react';
+import {View} from 'react-native';
+import {AuthRepository} from '../../Domain/Repository/AuthRepository';
+import {ServiceOrdersRepository} from '../../Domain/Repository/ServiceOrdersRepository';
+import {CurrentStatusCardComponent} from '../Components/CurrentStatusCardComponent';
+import {RecentOrdersListComponent} from '../Components/RecentOrdersListComponent';
 import {
   RecentActivityListItem,
   useServiceOrderItemModelController,
 } from '../Hook/useServiceOrderItemModelController';
+import {RecentActivityListItemPipe} from '../Pipes/RecentActivityListItemPipe';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
   serviceOrdersRepository: ServiceOrdersRepository;
 };
 
-export function HomeView({
-  serviceOrdersRepository,
-}: HomeViewProps) {
+export function HomeView({serviceOrdersRepository}: HomeViewProps) {
   const styles = useStyles();
 
-  const {countAssignedPendingOrders, getRecentActivity} =
-    useServiceOrderItemModelController(serviceOrdersRepository);
+  const {getEmployeeOrdersSummary} = useServiceOrderItemModelController(
+    serviceOrdersRepository,
+  );
 
   const [assignedPendingOrders, setAssignedPendingOrders] = useState<number>();
   const [recentActivityListItem, setRecentActivityListItem] = useState<
@@ -29,12 +29,11 @@ export function HomeView({
   >([]);
 
   useEffect(() => {
-    countAssignedPendingOrders().then(assignedPendingOrders =>
-      setAssignedPendingOrders(assignedPendingOrders),
-    );
-
-    getRecentActivity().then(recentActivityListItem =>
-      setRecentActivityListItem(recentActivityListItem),
+    getEmployeeOrdersSummary().then(
+      ({recentActivity, assignedServiceOrders}) => {
+        setAssignedPendingOrders(assignedServiceOrders.length);
+        setRecentActivityListItem(RecentActivityListItemPipe(recentActivity));
+      },
     );
   }, []);
 
