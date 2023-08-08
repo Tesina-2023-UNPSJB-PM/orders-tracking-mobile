@@ -1,28 +1,34 @@
-import { Card, ListItem } from '@rneui/base';
-import { makeStyles } from '@rneui/themed';
-import { View } from 'react-native';
+import {Card, ListItem} from '@rneui/base';
+import {Icon, makeStyles} from '@rneui/themed';
+import {View} from 'react-native';
+import {RecentActivityListItem} from '../Hook/useServiceOrderItemModelController';
 
-export function RecentOrdersListComponent() {
+type RecentOrdersListComponentProps = {
+  recentActivityListItems: RecentActivityListItem[];
+};
+
+export function RecentOrdersListComponent({
+  recentActivityListItems,
+}: RecentOrdersListComponentProps) {
   const styles = useStyles();
-  const recentOrders = [
-    {title: 'Orden de Servicio #1234', subtitle: '15:25'},
-    {title: 'Orden de Servicio #1233', subtitle: '14:10'},
-    {title: 'Orden de Servicio #1210', subtitle: '12:48'},
-  ];
+  
   return (
     <Card containerStyle={styles.card}>
       <Card.Title>Tu Última Actividad</Card.Title>
       <Card.Divider></Card.Divider>
       <View>
-        {recentOrders.map((recentOrder) => (
-          <ListItem key={`${recentOrder.title}`} bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>{recentOrder.title}</ListItem.Title>
-              <ListItem.Subtitle>{recentOrder.subtitle}</ListItem.Subtitle>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-        ))}
+        {recentActivityListItems.map(
+          ({title, subtitle, statusIcon, statusColor}) => (
+            <ListItem key={`${title}`} bottomDivider>
+              <Icon name={statusIcon} color={statusColor} type="antdesign" />
+              <ListItem.Content>
+                <ListItem.Title>{title}</ListItem.Title>
+                <ListItem.Subtitle>{subtitle}</ListItem.Subtitle>
+              </ListItem.Content>
+              {/* <ListItem.Chevron /> */}
+            </ListItem>
+          ),
+        )}
       </View>
     </Card>
   );

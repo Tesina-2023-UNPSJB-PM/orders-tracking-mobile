@@ -1,38 +1,57 @@
 import { makeStyles } from '@rneui/themed';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardComponent';
 import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
-import { useAuthModelController } from '../Hook/useAuthModelController';
+import {
+  RecentActivityListItem,
+  useServiceOrderItemModelController,
+} from '../Hook/useServiceOrderItemModelController';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
+  serviceOrdersRepository: ServiceOrdersRepository;
 };
 
-export function HomeView({authRepository}: HomeViewProps) {
+export function HomeView({
+  serviceOrdersRepository,
+}: HomeViewProps) {
   const styles = useStyles();
-  const {getCurrentUser, subscribeCurrentUser} =
-    useAuthModelController(authRepository);
+
+  const {countAssignedPendingOrders, getRecentActivity} =
+    useServiceOrderItemModelController(serviceOrdersRepository);
+
+  const [assignedPendingOrders, setAssignedPendingOrders] = useState<number>();
+  const [recentActivityListItem, setRecentActivityListItem] = useState<
+    RecentActivityListItem[]
+  >([]);
 
   useEffect(() => {
-    subscribeCurrentUser(() => {
-      const _currentUser = getCurrentUser();
-      console.log(
-        '🚀 ~ file: HomeView.tsx:18 ~ useAuthModelController ~ _currentUser:',
-        _currentUser,
-      );
-    });
-  });
+    countAssignedPendingOrders().then(assignedPendingOrders =>
+      setAssignedPendingOrders(assignedPendingOrders),
+    );
+
+    getRecentActivity().then(recentActivityListItem =>
+      setRecentActivityListItem(recentActivityListItem),
+    );
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <CurrentStatusCardComponent></CurrentStatusCardComponent>
+        <CurrentStatusCardComponent
+          assignedPendingOrders={
+            assignedPendingOrders
+          }></CurrentStatusCardComponent>
       </View>
 
       <View style={styles.list}>
-        <RecentOrdersListComponent></RecentOrdersListComponent>
+        <RecentOrdersListComponent
+          recentActivityListItems={
+            recentActivityListItem
+          }></RecentOrdersListComponent>
       </View>
     </View>
   );

@@ -14,6 +14,7 @@ import {AuthView} from './Views/AuthView';
 import {MyTabsView} from './Views/MyTabsView';
 import {RNLocationRepositoryImpl} from '../Data/Repository/RNLocationRepositoryImpl';
 import {PubNubLocationDatasourceImpl} from '../Data/Datasource/Location/PubNubLocationDatasourceImpl';
+import { ServiceOrdersRepositoryImpl } from '../Data/Repository/ServiceOrdersRepositoryImpl';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -38,6 +39,7 @@ export function MainRoutesView() {
     locationDatasource,
     dataSource,
   );
+  const serviceOrdersRepository = new ServiceOrdersRepositoryImpl();
   const {theme} = useTheme();
   return (
     <NavigationContainer>
@@ -58,6 +60,7 @@ export function MainRoutesView() {
               {...props}
               authRepository={authRepository}
               locationRepository={locationRepository}
+              serviceOrdersRepository={serviceOrdersRepository}
             />
           )}
         </Stack.Screen>
