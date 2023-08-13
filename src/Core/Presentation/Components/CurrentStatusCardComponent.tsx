@@ -1,22 +1,30 @@
 import {Badge, Card} from '@rneui/base';
 import {makeStyles} from '@rneui/themed';
 import {Text, View} from 'react-native';
+import dayjs from 'dayjs';
 
-export function CurrentStatusCardComponent() {
+type CurrentStatusCardComponentProp = {
+  assignedPendingOrders: number | undefined;
+};
+
+export function CurrentStatusCardComponent({
+  assignedPendingOrders,
+}: CurrentStatusCardComponentProp) {
   const styles = useStyles();
+  
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardContainer}>
         <View style={styles.dateContainer}>
-          <Text>23/07/2023</Text>
+          <Text>{dayjs().format('DD/MM/YYYY')}</Text>
         </View>
         <View style={styles.ordersContainer}>
           <Badge
-            value={5}
+            value={assignedPendingOrders}
             containerStyle={{marginEnd: 4}}
             badgeStyle={styles.ordersPendingBadge}
             textStyle={styles.ordersPendingText}></Badge>
-          <Text>órdenes asignadas.</Text>
+          <Text>órdenes asignadas pendientes.</Text>
         </View>
       </View>
     </Card>
