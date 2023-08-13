@@ -1,21 +1,21 @@
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
-import {useTheme} from '@rneui/themed';
-import {RestAuthDatasourceImpl} from '../Data/Datasource/Auth/RestAuthDatasourceImpl';
-import {AuthRepositoryImpl} from '../Data/Repository/AuthRepositoryImpl';
-import {AuthRepository} from '../Domain/Repository/AuthRepository';
-import {CurrentUserAvatarComponent} from './Components/CurrentUserAvatarComponent';
-import {LogoutButtonComponent} from './Components/LogoutButtonComponent';
-import {MAIN_ROUTES} from './Constants/RoutesConstants';
-import {AuthView} from './Views/AuthView';
-import {MyTabsView} from './Views/MyTabsView';
-import {RNLocationRepositoryImpl} from '../Data/Repository/RNLocationRepositoryImpl';
-import {PubNubLocationDatasourceImpl} from '../Data/Datasource/Location/PubNubLocationDatasourceImpl';
-import {ServiceOrdersRepositoryImpl} from '../Data/Repository/ServiceOrdersRepositoryImpl';
-import {RestServiceOrdersDatasourceImpl} from '../Data/Datasource/ServiceOrders/RestServiceOrdersDatasourceImpl';
+import { useTheme } from '@rneui/themed';
+import { RestAuthDatasourceImpl } from '../Data/Datasource/Auth/RestAuthDatasourceImpl';
+import { PubNubLocationDatasourceImpl } from '../Data/Datasource/Location/PubNubLocationDatasourceImpl';
+import { RestServiceOrdersDatasourceImpl } from '../Data/Datasource/ServiceOrders/RestServiceOrdersDatasourceImpl';
+import { AuthRepositoryImpl } from '../Data/Repository/AuthRepositoryImpl';
+import { RNLocationRepositoryImpl } from '../Data/Repository/RNLocationRepositoryImpl';
+import { ServiceOrdersRepositoryImpl } from '../Data/Repository/ServiceOrdersRepositoryImpl';
+import { AuthRepository } from '../Domain/Repository/AuthRepository';
+import { CurrentUserAvatarComponent } from './Components/CurrentUserAvatarComponent';
+import { LogoutButtonComponent } from './Components/LogoutButtonComponent';
+import { MAIN_ROUTES } from './Constants/RoutesConstants';
+import { AuthView } from './Views/AuthView';
+import { MyTabsView } from './Views/MyTabsView';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -44,17 +44,17 @@ export function MainRoutesView() {
   const serviceOrdersRepository = new ServiceOrdersRepositoryImpl(
     serviceOrdersDatasource,
   );
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={MAIN_ROUTES.AUTH}>
-        <Stack.Screen name={MAIN_ROUTES.AUTH} options={{headerShown: false}}>
+        <Stack.Screen name={MAIN_ROUTES.AUTH} options={{ headerShown: false }}>
           {props => <AuthView {...props} authRepository={authRepository} />}
         </Stack.Screen>
         <Stack.Screen
           name={MAIN_ROUTES.TABS}
-          options={({navigation}) => ({
-            headerStyle: {backgroundColor: theme.colors.background},
+          options={({ navigation }) => ({
+            headerStyle: { backgroundColor: theme.colors.background },
             headerBackVisible: false,
             headerLeft: () => AvatarButtonHeader(authRepository),
             headerRight: () => LogoutButtonHeader(navigation, authRepository),

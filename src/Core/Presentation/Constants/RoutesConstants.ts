@@ -1,5 +1,5 @@
 export const MAIN_ROUTES = {
-    AUTH: 'Auth',
-    HOME: 'Home',
-    TABS: 'Tabs'
-}
+  AUTH: 'Auth',
+  HOME: 'Home',
+  TABS: 'Tabs',
+};

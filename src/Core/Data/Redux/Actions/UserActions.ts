@@ -1,4 +1,4 @@
-import {User} from '../../../Domain/Model/AuthModel';
+import { User } from '../../../Domain/Model/AuthModel';
 import { ActionsTypes } from './ActionsConstants';
 
 export type CurrentUserAction = {

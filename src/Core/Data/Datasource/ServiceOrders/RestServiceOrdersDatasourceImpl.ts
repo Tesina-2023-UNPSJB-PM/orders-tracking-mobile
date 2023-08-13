@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {ServiceOrderItem} from '../../../Domain/Model/ServiceOrderItemModel';
-import {ServiceOrdersDatasource} from './ServiceOrdersDatasource';
-import {PageDto} from '../../../../Common/Model/PaginationModel';
-import {EMPLOYEE_ORDERS_SUMMARY} from '../../Constants/EmployeeServiceOrdersSummary';
-import {EmployeeOrdersSummary} from '../../../Domain/Model/EmployeeOrdersSummary';
+import { PageDto } from '../../../../Common/Model/PaginationModel';
+import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
+import { EMPLOYEE_ORDERS_SUMMARY } from '../../Constants/EmployeeServiceOrdersSummary';
+import { ServiceOrdersDatasource } from './ServiceOrdersDatasource';
 
 export class RestServiceOrdersDatasourceImpl
   implements ServiceOrdersDatasource

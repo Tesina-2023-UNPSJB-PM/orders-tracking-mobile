@@ -1,5 +1,5 @@
 import { Unsubscribe } from 'redux';
-import {User} from '../Model/AuthModel';
+import { User } from '../Model/AuthModel';
 
 /**
  * Repository managing the history of TicTacToe steps.

@@ -1,9 +1,9 @@
-import {Unsubscribe} from 'redux';
-import {User} from '../../../Domain/Model/AuthModel';
-import {clearCurrentUser, setCurrentUser} from '../../Redux/Actions/UserActions';
-import store from '../../Redux/Store';
-import {AuthDataSource} from './AuthDatasource';
 import axios from 'axios';
+import { Unsubscribe } from 'redux';
+import { User } from '../../../Domain/Model/AuthModel';
+import { clearCurrentUser, setCurrentUser } from '../../Redux/Actions/UserActions';
+import store from '../../Redux/Store';
+import { AuthDataSource } from './AuthDatasource';
 
 export class RestAuthDatasourceImpl implements AuthDataSource {
   async setCurrentUser(user: User): Promise<void> {
@@ -24,7 +24,7 @@ export class RestAuthDatasourceImpl implements AuthDataSource {
     password: string,
   ): Promise<User | undefined> {
     /** @todo add endpoints config file */
-    const url = 'http://vps-3107443-x.dattaweb.com/api/auth/login';
+    const url = 'http://vps-3107443-x.dattaweb.com/api/tracking-so/auth/login';
     const user: User = {username, firstName: 'Pepe', lastName: 'Argento'}
     return axios.post(url, {username, password}).then(() => user);
   }

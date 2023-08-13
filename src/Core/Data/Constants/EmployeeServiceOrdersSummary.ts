@@ -1,5 +1,5 @@
-import {EmployeeOrdersSummary} from '../../Domain/Model/EmployeeOrdersSummary';
-import {ServiceOrderItem} from '../../Domain/Model/ServiceOrderItemModel';
+import { EmployeeOrdersSummary } from '../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 
 const recentActivity: ServiceOrderItem[] = [
   {
@@ -124,7 +124,7 @@ const recentActivity: ServiceOrderItem[] = [
   },
 ];
 
-const assignedServiceOrders: ServiceOrderItem[] = [
+export const assignedServiceOrders: ServiceOrderItem[] = [
   {
     id: 4,
     number: '00024785',
@@ -150,8 +150,8 @@ const assignedServiceOrders: ServiceOrderItem[] = [
         country: 'fugiat commodo',
         state: 'in officia culpa sed',
         zipCode: 'in',
-        latitude: -41.605791,
-        longitude: -65.363961,
+        latitude: -42.781321,
+        longitude: -65.029085,
       },
       referenceInfo: 'Porton marron',
     },
@@ -167,7 +167,7 @@ const assignedServiceOrders: ServiceOrderItem[] = [
   },
   {
     id: 5,
-    number: '00024785',
+    number: '00070123',
     description: 'Orden de servicio de ejemplo 2',
     creationTime: '2023-06-03T22:13:57.697Z',
     priority: 'MEDIUM',
@@ -190,8 +190,8 @@ const assignedServiceOrders: ServiceOrderItem[] = [
         country: 'fugiat commodo',
         state: 'in officia culpa sed',
         zipCode: 'in',
-        latitude: -41.605791,
-        longitude: -65.363961,
+        latitude: -42.780131,
+        longitude: -65.055571,
       },
       referenceInfo: 'Porton marron',
     },
@@ -230,8 +230,8 @@ const assignedServiceOrders: ServiceOrderItem[] = [
         country: 'fugiat commodo',
         state: 'in officia culpa sed',
         zipCode: 'in',
-        latitude: -42.786055,
-        longitude: -65.045506,
+        latitude: -42.782529,
+        longitude: -65.02696,
       },
       referenceInfo: 'Puerta azul',
     },

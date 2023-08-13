@@ -1,7 +1,7 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {login} from '../../Domain/UseCase/LoginUseCase';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Unsubscribe } from 'redux';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { login } from '../../Domain/UseCase/LoginUseCase';
 import { MAIN_ROUTES } from '../Constants/RoutesConstants';
 
 export function useAuthModelController(authRepository: AuthRepository) {

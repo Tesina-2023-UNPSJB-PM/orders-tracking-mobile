@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import {ServiceOrderItem} from '../../Domain/Model/ServiceOrderItemModel';
-import { RecentActivityListItem } from '../Hook/useServiceOrderItemModelController';
+import { RecentActivityListItem } from '../../Domain/Model/RecentActivityListItemModel';
+import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 
 export function RecentActivityListItemPipe(recentActivity: ServiceOrderItem[]): RecentActivityListItem[] {
   return recentActivity.map(({description: title, execution, status}) => ({

@@ -1,7 +1,7 @@
-import {Card, ListItem} from '@rneui/base';
-import {Icon, makeStyles} from '@rneui/themed';
-import {View} from 'react-native';
-import {RecentActivityListItem} from '../Hook/useServiceOrderItemModelController';
+import { Card, ListItem } from '@rneui/base';
+import { Icon, makeStyles } from '@rneui/themed';
+import { View } from 'react-native';
+import { RecentActivityListItem } from '../../Domain/Model/RecentActivityListItemModel';
 
 type RecentOrdersListComponentProps = {
   recentActivityListItems: RecentActivityListItem[];

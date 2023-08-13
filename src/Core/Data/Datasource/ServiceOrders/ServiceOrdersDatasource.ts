@@ -1,6 +1,6 @@
-import {PageDto} from '../../../../Common/Model/PaginationModel';
-import {EmployeeOrdersSummary} from '../../../Domain/Model/EmployeeOrdersSummary';
-import {ServiceOrderItem} from '../../../Domain/Model/ServiceOrderItemModel';
+import { PageDto } from '../../../../Common/Model/PaginationModel';
+import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 
 /**
  * DataSource access interface

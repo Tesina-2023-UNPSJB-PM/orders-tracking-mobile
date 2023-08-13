@@ -1,14 +1,5 @@
-import dayjs from 'dayjs';
-
-import {ServiceOrdersRepository} from '../../Domain/Repository/ServiceOrdersRepository';
-import {EmployeeOrdersSummary} from '../../Domain/Model/EmployeeOrdersSummary';
-
-export type RecentActivityListItem = {
-  title: string;
-  subtitle: string;
-  statusIcon: 'checkcircle' | 'closecircle';
-  statusColor: 'green' | 'red';
-};
+import { EmployeeOrdersSummary } from '../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 
 export function useServiceOrderItemModelController(
   serviceOrdersRepository: ServiceOrdersRepository,

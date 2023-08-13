@@ -1,7 +1,7 @@
-import {Avatar} from '@rneui/base';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {makeStyles} from '@rneui/themed';
-import {useAuthModelController} from '../Hook/useAuthModelController';
+import { Avatar } from '@rneui/base';
+import { makeStyles } from '@rneui/themed';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { useAuthModelController } from '../Hook/useAuthModelController';
 
 type CurrentUserAvatarComponentProps = {
   authRepository: AuthRepository;

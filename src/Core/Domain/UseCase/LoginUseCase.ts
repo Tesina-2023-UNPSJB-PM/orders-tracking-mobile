@@ -1,5 +1,5 @@
-import {User} from '../Model/AuthModel';
-import {AuthRepository} from '../Repository/AuthRepository';
+import { User } from '../Model/AuthModel';
+import { AuthRepository } from '../Repository/AuthRepository';
 
 export async function login(
   username: string,

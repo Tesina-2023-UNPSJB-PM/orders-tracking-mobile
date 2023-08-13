@@ -1,7 +1,7 @@
-import {combineReducers} from 'redux';
-import {CurrentUserAction} from '../Actions/UserActions';
-import {ActionsTypes} from '../Actions/ActionsConstants';
-import {ApplicationState} from '../Store';
+import { combineReducers } from 'redux';
+import { ActionsTypes } from '../Actions/ActionsConstants';
+import { CurrentUserAction } from '../Actions/UserActions';
+import { ApplicationState } from '../Store';
 
 const INITIAL_STATE: ApplicationState = {
   currentUser: undefined,
