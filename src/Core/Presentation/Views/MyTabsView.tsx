@@ -26,7 +26,10 @@ export function MyTabsView({
       <Tab.Screen
         name="Maps"
         children={() => (
-          <OrdersMapView locationRepository={locationRepository} />
+          <OrdersMapView
+            locationRepository={locationRepository}
+            serviceOrdersRepository={serviceOrdersRepository}
+          />
         )}
       />
     </Tab.Navigator>

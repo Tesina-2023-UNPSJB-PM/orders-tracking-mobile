@@ -8,12 +8,17 @@ import { LocationRepository } from '../../Domain/Repository/LocationRepository';
 import { TrackingOrdersMapComponent } from '../Components/TrackingOrdersMapComponent';
 import { APP_INITIAL_REGION } from '../Constants/MapsConstants';
 import { useOrdersMapsModelController } from '../Hook/useOrdersMapsModelController';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 
 type OrdersMapViewOptions = {
   locationRepository: LocationRepository;
+  serviceOrdersRepository: ServiceOrdersRepository;
 };
 
-export function OrdersMapView({ locationRepository }: OrdersMapViewOptions) {
+export function OrdersMapView({
+  locationRepository,
+  serviceOrdersRepository,
+}: OrdersMapViewOptions) {
   const styles = useStyles();
 
   const { watchPosition } = useOrdersMapsModelController(locationRepository);
@@ -24,7 +29,7 @@ export function OrdersMapView({ locationRepository }: OrdersMapViewOptions) {
 
   const [assignedServiceOrders, setAssignedServiceOrders] = useState<
     ServiceOrderItem[]
-  >(EMPLOYEE_ORDERS_SUMMARY.assignedServiceOrders);
+  >([]);
 
   useEffect(() => {
     watchPosition({
@@ -38,6 +43,10 @@ export function OrdersMapView({ locationRepository }: OrdersMapViewOptions) {
         });
       },
     });
+
+    serviceOrdersRepository
+      .getEmployeeOrders()
+      .then(orders => setAssignedServiceOrders(orders));
   }, []);
 
   return (
