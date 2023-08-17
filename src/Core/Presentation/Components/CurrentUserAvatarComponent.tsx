@@ -13,8 +13,8 @@ export function CurrentUserAvatarComponent({
   const styles = useStyles();
   const {getCurrentUser} = useAuthModelController(authRepository);
   const currentUser = getCurrentUser();
-  const title = `${currentUser?.firstName[0] ?? ''}${
-    currentUser?.lastName[0] ?? ''
+  const title = `${currentUser?.userProfile?.firstName[0] ?? ''}${
+    currentUser?.userProfile?.lastName[0] ?? ''
   }`;
   return (
     <Avatar size={32} rounded title={title} containerStyle={styles.avatar} />

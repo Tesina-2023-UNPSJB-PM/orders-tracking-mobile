@@ -1,5 +1,5 @@
 import { Unsubscribe } from 'redux';
-import { User } from '../../Domain/Model/AuthModel';
+import { UserInfo } from '../../Domain/Model/AuthModel';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
 import { AuthDataSource } from '../Datasource/Auth/AuthDatasource';
 
@@ -10,10 +10,10 @@ export class AuthRepositoryImpl implements AuthRepository {
     this.authDataSource = authDataSource;
   }
 
-  async auth(username: string, password: string): Promise<User> {
+  async auth(username: string, password: string): Promise<UserInfo> {
     const currentUser = await this.authDataSource.getCurrentUser();
 
-    if (currentUser?.username === username) return currentUser;
+    if (currentUser?.userProfile?.username === username) return currentUser;
 
     const user = await this.authDataSource.authUser(username, password);
 
@@ -24,7 +24,7 @@ export class AuthRepositoryImpl implements AuthRepository {
     return user;
   }
 
-  getCurrentUser(): User | undefined {
+  getCurrentUser(): UserInfo | undefined {
     return this.authDataSource.getCurrentUser();
   }
 

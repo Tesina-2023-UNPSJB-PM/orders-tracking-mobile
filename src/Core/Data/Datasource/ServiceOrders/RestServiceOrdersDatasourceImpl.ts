@@ -3,7 +3,6 @@ import { PageDto } from '../../../../Common/Model/PaginationModel';
 import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersDatasource } from './ServiceOrdersDatasource';
-import Config from 'react-native-config';
 
 export class RestServiceOrdersDatasourceImpl
   implements ServiceOrdersDatasource
@@ -24,14 +23,16 @@ export class RestServiceOrdersDatasourceImpl
   async fetchEmployeeOrdersSummary(
     employeeId: number,
   ): Promise<EmployeeOrdersSummary> {
-    console.log(Config)
-    const url = `http://localhost:8080/tracking-so/orders/summary`;
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/orders/summary`;
     return axios
       .get<EmployeeOrdersSummary>(url, {
         params: {
           employeeId,
         },
       })
-      .then(({ data }) => data);
+      .then(({ data }) => {
+        console.log("🚀 ~ file: RestServiceOrdersDatasourceImpl.ts:35 ~ .then ~ data:", data)
+        return data
+      });
   }
 }

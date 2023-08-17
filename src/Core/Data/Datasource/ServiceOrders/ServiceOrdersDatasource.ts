@@ -11,6 +11,7 @@ export interface ServiceOrdersDatasource {
     employeeId: number,
     statusCode: 'DONE' | 'PENDING' | 'CANCELED',
   ): Promise<PageDto<ServiceOrderItem>>;
+
   fetchEmployeeOrdersSummary(
     employeeId: number,
   ): Promise<EmployeeOrdersSummary>;

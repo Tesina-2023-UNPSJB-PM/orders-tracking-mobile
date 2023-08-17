@@ -1,9 +1,9 @@
 import { createStore } from 'redux';
-import { User } from '../../Domain/Model/AuthModel';
+import { UserInfo } from '../../Domain/Model/AuthModel';
 import UserReducer from './Reducers/UserReducer';
 
 export type ApplicationState = {
-  currentUser: User | undefined;
+  currentUser: UserInfo | undefined;
 };
 
 const store = createStore(UserReducer);

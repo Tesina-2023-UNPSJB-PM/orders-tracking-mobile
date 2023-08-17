@@ -16,7 +16,7 @@ export function CurrentEmployeeLocationMapComponent({
   return (
     coordinate && (
       <Marker title="Tu posición actual!" coordinate={coordinate}>
-        <Icon name="man" type="entypo" size={25} />
+        <Icon name="man" type="entypo" size={18} />
       </Marker>
     )
   );

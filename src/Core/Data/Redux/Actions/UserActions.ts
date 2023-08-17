@@ -1,12 +1,12 @@
-import { User } from '../../../Domain/Model/AuthModel';
+import { UserInfo } from '../../../Domain/Model/AuthModel';
 import { ActionsTypes } from './ActionsConstants';
 
 export type CurrentUserAction = {
     type: string,
-    payload?: User;
+    payload?: UserInfo;
 }
 
-export const setCurrentUser = (user: User) => ({
+export const setCurrentUser = (user: UserInfo) => ({
   type: ActionsTypes.SET_CURRENT_USER,
   payload: user,
 });

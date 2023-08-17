@@ -19,6 +19,7 @@ type TrackingOrdersMapComponentOptions = {
 export function TrackingOrdersMapComponent({
   currentLocation: coordinate,
   region,
+  assignedServiceOrders
 }: TrackingOrdersMapComponentOptions) {
   const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
 

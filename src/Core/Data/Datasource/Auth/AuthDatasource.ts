@@ -1,5 +1,5 @@
-import { Unsubscribe } from "redux";
-import { User } from "../../../Domain/Model/AuthModel";
+import { Unsubscribe } from 'redux';
+import { UserInfo } from '../../../Domain/Model/AuthModel';
 
 /**
  * DataSource access interface
@@ -7,8 +7,8 @@ import { User } from "../../../Domain/Model/AuthModel";
  */
 export interface AuthDataSource {
   clearCurrentUser(): void;
-  setCurrentUser(user: User): void;
-  getCurrentUser(): User | undefined;
-  authUser(username: string, password: string): Promise<User | undefined>;
+  setCurrentUser(user: UserInfo): void;
+  getCurrentUser(): UserInfo | undefined;
+  authUser(username: string, password: string): Promise<UserInfo | undefined>;
   subscribeCurrentUser(handler: () => void): Unsubscribe;
 }

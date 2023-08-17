@@ -11,7 +11,7 @@ export function AssignedOrdersMapComponent({
 }: AssignedOrdersMapComponentProps) {
   return assignedOrdersMarkers?.map(({ iconName, ...markerProps }) => (
     <Marker {...markerProps}>
-      <Icon name={iconName} type="material-community"></Icon>
+      <Icon name={iconName} size={14} type="material-community"></Icon>
     </Marker>
   ));
 }

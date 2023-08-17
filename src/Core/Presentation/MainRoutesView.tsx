@@ -43,6 +43,7 @@ export function MainRoutesView() {
   );
   const serviceOrdersRepository = new ServiceOrdersRepositoryImpl(
     serviceOrdersDatasource,
+    dataSource,
   );
   const { theme } = useTheme();
   return (
