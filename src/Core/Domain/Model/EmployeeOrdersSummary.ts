@@ -1,4 +1,4 @@
-import {ServiceOrderItem} from './ServiceOrderItemModel';
+import { ServiceOrderItem } from './ServiceOrderItemModel';
 
 export type EmployeeOrdersSummary = {
   assignedServiceOrders: ServiceOrderItem[];

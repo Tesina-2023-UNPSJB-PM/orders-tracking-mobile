@@ -1,14 +1,14 @@
 import { Unsubscribe } from 'redux';
-import {User} from '../Model/AuthModel';
+import { UserInfo } from '../Model/AuthModel';
 
 /**
  * Repository managing the history of TicTacToe steps.
  * Each step consists of a board.
  */
 export interface AuthRepository {
-  auth(username: string, password: string): Promise<User>;
+  auth(username: string, password: string): Promise<UserInfo>;
 
-  getCurrentUser(): User | undefined;
+  getCurrentUser(): UserInfo | undefined;
 
   subscribeCurrentUser(handler: () => void): Unsubscribe;
 

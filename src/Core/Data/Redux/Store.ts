@@ -1,10 +1,10 @@
 import { createStore } from 'redux';
+import { UserInfo } from '../../Domain/Model/AuthModel';
 import UserReducer from './Reducers/UserReducer';
-import { User } from '../../Domain/Model/AuthModel';
 
 export type ApplicationState = {
-    currentUser: User | undefined;
-}
+  currentUser: UserInfo | undefined;
+};
 
 const store = createStore(UserReducer);
 

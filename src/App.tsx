@@ -7,10 +7,10 @@
 
 import React from 'react';
 
-import {Provider} from 'react-redux';
+import { ThemeProvider, createTheme } from '@rneui/themed';
+import { Provider } from 'react-redux';
 import store from './Core/Data/Redux/Store';
-import {MainRoutesView} from './Core/Presentation/MainRoutesView';
-import {ThemeProvider, createTheme} from '@rneui/themed';
+import { MainRoutesView } from './Core/Presentation/MainRoutesView';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

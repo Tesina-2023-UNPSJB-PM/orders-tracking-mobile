@@ -1,6 +1,6 @@
 import Pubnub from 'pubnub';
-import {LocationDatasource, SendLocationOptions} from './LocationDatasource';
 import Config from 'react-native-config';
+import { LocationDatasource, SendLocationOptions } from './LocationDatasource';
 
 export class PubNubLocationDatasourceImpl implements LocationDatasource {
   private pubNubClientInstance: Pubnub = new Pubnub({

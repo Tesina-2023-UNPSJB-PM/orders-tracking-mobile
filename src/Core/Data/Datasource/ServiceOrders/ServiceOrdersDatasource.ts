@@ -1,6 +1,6 @@
-import {PageDto} from '../../../../Common/Model/PaginationModel';
-import {EmployeeOrdersSummary} from '../../../Domain/Model/EmployeeOrdersSummary';
-import {ServiceOrderItem} from '../../../Domain/Model/ServiceOrderItemModel';
+import { PageDto } from '../../../../Common/Model/PaginationModel';
+import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 
 /**
  * DataSource access interface
@@ -11,6 +11,7 @@ export interface ServiceOrdersDatasource {
     employeeId: number,
     statusCode: 'DONE' | 'PENDING' | 'CANCELED',
   ): Promise<PageDto<ServiceOrderItem>>;
+
   fetchEmployeeOrdersSummary(
     employeeId: number,
   ): Promise<EmployeeOrdersSummary>;

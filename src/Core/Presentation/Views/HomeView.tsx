@@ -1,25 +1,23 @@
-import {makeStyles} from '@rneui/themed';
-import {useEffect, useState} from 'react';
-import {View} from 'react-native';
-import {AuthRepository} from '../../Domain/Repository/AuthRepository';
-import {ServiceOrdersRepository} from '../../Domain/Repository/ServiceOrdersRepository';
-import {CurrentStatusCardComponent} from '../Components/CurrentStatusCardComponent';
-import {RecentOrdersListComponent} from '../Components/RecentOrdersListComponent';
-import {
-  RecentActivityListItem,
-  useServiceOrderItemModelController,
-} from '../Hook/useServiceOrderItemModelController';
-import {RecentActivityListItemPipe} from '../Pipes/RecentActivityListItemPipe';
+import { makeStyles } from '@rneui/themed';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { RecentActivityListItem } from '../../Domain/Model/RecentActivityListItemModel';
+import { AuthRepository } from '../../Domain/Repository/AuthRepository';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
+import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardComponent';
+import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
+import { useServiceOrderItemModelController } from '../Hook/useServiceOrderItemModelController';
+import { RecentActivityListItemPipe } from '../Pipes/RecentActivityListItemPipe';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
   serviceOrdersRepository: ServiceOrdersRepository;
 };
 
-export function HomeView({serviceOrdersRepository}: HomeViewProps) {
+export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
   const styles = useStyles();
 
-  const {getEmployeeOrdersSummary} = useServiceOrderItemModelController(
+  const { getEmployeeOrdersSummary } = useServiceOrderItemModelController(
     serviceOrdersRepository,
   );
 
@@ -30,7 +28,7 @@ export function HomeView({serviceOrdersRepository}: HomeViewProps) {
 
   useEffect(() => {
     getEmployeeOrdersSummary().then(
-      ({recentActivity, assignedServiceOrders}) => {
+      ({ recentActivity, assignedServiceOrders }) => {
         setAssignedPendingOrders(assignedServiceOrders.length);
         setRecentActivityListItem(RecentActivityListItemPipe(recentActivity));
       },
@@ -72,5 +70,5 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
 
-  tabButton: {color: theme.colors.secondary},
+  tabButton: { color: theme.colors.secondary },
 }));

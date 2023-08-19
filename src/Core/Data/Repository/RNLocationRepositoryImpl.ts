@@ -1,4 +1,4 @@
-import RNLocation, {Subscription} from 'react-native-location';
+import RNLocation, { Subscription } from 'react-native-location';
 import {
   LocationRepository,
   WatchPositionOptions,
@@ -7,8 +7,8 @@ import {
   APP_DEFAULT_LOCATION_CONFIG,
   APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG,
 } from '../Constants/RNLocationConstants';
-import {LocationDatasource} from '../Datasource/Location/LocationDatasource';
-import {AuthDataSource} from '../Datasource/_index';
+import { LocationDatasource } from '../Datasource/Location/LocationDatasource';
+import { AuthDataSource } from '../Datasource/_index';
 
 export class RNLocationRepositoryImpl implements LocationRepository {
   private locationSubscription: Subscription | undefined = undefined;

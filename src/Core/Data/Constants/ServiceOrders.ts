@@ -1,5 +1,4 @@
-import {EmployeeOrdersSummary} from '../../Domain/Model/EmployeeOrdersSummary';
-import {ServiceOrderItem} from '../../Domain/Model/ServiceOrderItemModel';
+import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 
 export const SERVICE_ORDERS_ITEMS: ServiceOrderItem[] = [
   {

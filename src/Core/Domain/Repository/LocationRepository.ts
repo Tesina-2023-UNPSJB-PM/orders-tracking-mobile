@@ -1,4 +1,4 @@
-import {Location} from 'react-native-location';
+import { Location } from 'react-native-location';
 
 export type WatchPositionOptions = {
   success: (locations: Location[]) => void;

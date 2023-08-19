@@ -17,14 +17,17 @@ type AuthViewProps = {
   authRepository: AuthRepository;
 };
 
-export function AuthView({navigation, authRepository}: AuthViewProps) {
-  const {handleClickOnLogin} = useAuthModelController(authRepository);
+export function AuthView({ navigation, authRepository }: AuthViewProps) {
+  const { handleClickOnLogin } = useAuthModelController(authRepository);
   const [username, setUsername] = useState('dfuseneco');
   const [password, setPassword] = useState('12345678');
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../../../Assets/Icons/tracking.png')} />
+      <Image
+        style={styles.image}
+        source={require('../../../Assets/Icons/tracking.png')}
+      />
 
       <View style={styles.inputView}>
         <TextInput

@@ -1,7 +1,7 @@
-import {Badge, Card} from '@rneui/base';
-import {makeStyles} from '@rneui/themed';
-import {Text, View} from 'react-native';
+import { Badge, Card } from '@rneui/base';
+import { makeStyles } from '@rneui/themed';
 import dayjs from 'dayjs';
+import { Text, View } from 'react-native';
 
 type CurrentStatusCardComponentProp = {
   assignedPendingOrders: number | undefined;
