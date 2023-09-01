@@ -2,13 +2,12 @@ import { makeStyles } from '@rneui/themed';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Location } from 'react-native-location';
-import { EMPLOYEE_ORDERS_SUMMARY } from '../../Data/Constants/EmployeeServiceOrdersSummary';
 import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 import { LocationRepository } from '../../Domain/Repository/LocationRepository';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 import { TrackingOrdersMapComponent } from '../Components/TrackingOrdersMapComponent';
 import { APP_INITIAL_REGION } from '../Constants/MapsConstants';
 import { useOrdersMapsModelController } from '../Hook/useOrdersMapsModelController';
-import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 
 type OrdersMapViewOptions = {
   locationRepository: LocationRepository;

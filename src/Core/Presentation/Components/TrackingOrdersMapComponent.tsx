@@ -3,12 +3,13 @@ import Config from 'react-native-config';
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { APP_MAP_STYLE, APP_MIN_ZOOM_LEVEL } from '../Constants/MapsConstants';
 
+import { useState } from 'react';
 import { Location } from 'react-native-location';
-import { assignedServiceOrders } from '../../Data/Constants/EmployeeServiceOrdersSummary';
 import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 import { AssignedOrdersMarkerPipe } from '../Pipes/AssignedOrdersMarkerPipe';
 import { AssignedOrdersMapComponent } from './AssignedOrdersMapComponent';
 import { CurrentEmployeeLocationMapComponent } from './CurrentEmployeeLocationMapComponent';
+import SelectedOrderCard from './Tracking/SelectedOrderCardComponent';
 
 type TrackingOrdersMapComponentOptions = {
   currentLocation: Location | undefined;
@@ -19,9 +20,19 @@ type TrackingOrdersMapComponentOptions = {
 export function TrackingOrdersMapComponent({
   currentLocation: coordinate,
   region,
-  assignedServiceOrders
+  assignedServiceOrders,
 }: TrackingOrdersMapComponentOptions) {
   const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
+
+  const [selectedOrder, setSelectedOrder] = useState<ServiceOrderItem | null>(
+    null,
+  );
+
+  const onOrderSelected = (orderId: string) => {
+    const order =
+      assignedServiceOrders.find(({ id }) => id === +orderId) ?? null;
+    setSelectedOrder(order);
+  };
 
   return (
     <View style={styles.container}>
@@ -37,8 +48,20 @@ export function TrackingOrdersMapComponent({
           assignedOrdersMarkers={AssignedOrdersMarkerPipe(
             assignedServiceOrders,
           )}
+          selectedOrderKey={`${selectedOrder?.id}`}
+          onOrderSelected={onOrderSelected}
         />
       </MapView>
+
+      {selectedOrder && (
+        <View style={styles.centeredView}>
+          <SelectedOrderCard
+            serviceOrder={selectedOrder}
+            onCancel={() => console.log('onCancel')}
+            onConfirm={() => console.log('onConfirm')}
+            onClose={() => setSelectedOrder(null)}></SelectedOrderCard>
+        </View>
+      )}
     </View>
   );
 }
@@ -55,7 +78,6 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    //borderRadius: 10,
   },
   centeredView: {
     flex: 1,

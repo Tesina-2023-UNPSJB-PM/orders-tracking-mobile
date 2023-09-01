@@ -31,20 +31,18 @@ export function AssignedOrdersMarkerPipe(
   serviceOrdersItems: ServiceOrderItem[],
 ): IMarker[] {
   if (!serviceOrdersItems) return [];
-  return serviceOrdersItems.map(
-    ({ id, description, destination, number, status, type }) => {
-      const { latitude, longitude } = destination.address;
-      const { code } = status;
-      const iconName = getIconName(code);
-      const iconColor = getIconColor(code);
-      return {
-        key: `${id}`,
-        title: `#${number}`,
-        description,
-        coordinate: { latitude, longitude },
-        iconName,
-        iconColor,
-      };
-    },
-  );
+  return serviceOrdersItems.map(({ id, destination, status }) => {
+    const { latitude, longitude } = destination.address;
+    const { code } = status;
+    const iconName = getIconName(code);
+    const iconColor = getIconColor(code);
+    return {
+      key: `${id}`,
+      title: ``,
+      description: '',
+      coordinate: { latitude, longitude },
+      iconName,
+      iconColor,
+    };
+  });
 }
