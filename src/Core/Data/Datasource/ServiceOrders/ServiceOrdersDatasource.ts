@@ -1,5 +1,6 @@
 import { PageDto } from '../../../../Common/Model/PaginationModel';
 import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 
 /**
@@ -15,4 +16,6 @@ export interface ServiceOrdersDatasource {
   fetchEmployeeOrdersSummary(
     employeeId: number,
   ): Promise<EmployeeOrdersSummary>;
+
+  fetchEmployeeOrderDetail(orderId: number): Promise<ServiceOrderDetail>;
 }

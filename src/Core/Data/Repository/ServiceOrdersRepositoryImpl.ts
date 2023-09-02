@@ -1,4 +1,5 @@
 import { EmployeeOrdersSummary } from '../../Domain/Model/EmployeeOrdersSummary';
+import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
 import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 import { ServiceOrdersDatasource } from '../Datasource/ServiceOrders/ServiceOrdersDatasource';
@@ -28,5 +29,9 @@ export class ServiceOrdersRepositoryImpl implements ServiceOrdersRepository {
     return this.serviceOrdersDatasource
       .fetchEmployeeOrdersSummary(employeeId)
       .then(({ assignedServiceOrders = [] }) => assignedServiceOrders);
+  }
+
+  async getEmployeeOrderDetail(orderId: number): Promise<ServiceOrderDetail> {
+    return this.serviceOrdersDatasource.fetchEmployeeOrderDetail(orderId);
   }
 }

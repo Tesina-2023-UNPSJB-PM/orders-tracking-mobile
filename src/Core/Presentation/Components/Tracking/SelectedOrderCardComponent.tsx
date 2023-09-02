@@ -82,14 +82,9 @@ const SelectedOrderCardComponent = ({
             </Text>
             <View style={styles.buttonsContainer}>
               <Button
-                titleStyle={styles.cancelTitleButton}
-                buttonStyle={styles.cancelButton}
-                title="Cancelar Visita"
-                onPress={() => onCancel()}></Button>
-              <Button
                 titleStyle={styles.titleButton}
                 buttonStyle={styles.confirmButton}
-                title="Confirmar Visita"
+                title="Adjuntar Información"
                 onPress={() => onConfirm()}></Button>
             </View>
           </View>
