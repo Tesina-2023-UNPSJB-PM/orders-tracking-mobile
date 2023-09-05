@@ -3,6 +3,7 @@ import { PageDto } from '../../../../Common/Model/PaginationModel';
 import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSummary';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersDatasource } from './ServiceOrdersDatasource';
+import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 
 export class RestServiceOrdersDatasourceImpl
   implements ServiceOrdersDatasource
@@ -30,9 +31,14 @@ export class RestServiceOrdersDatasourceImpl
           employeeId,
         },
       })
-      .then(({ data }) => {
-        console.log("🚀 ~ file: RestServiceOrdersDatasourceImpl.ts:35 ~ .then ~ data:", data)
-        return data
-      });
+      .then(({ data }) => data);
+  }
+
+  async fetchEmployeeOrderDetail(orderId: number): Promise<ServiceOrderDetail> {
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/orders/${orderId}`;
+    return axios.get<ServiceOrderDetail>(url).then(({ data }) => {
+      console.log('fetchEmployeeOrderDetail - ', data.description);
+      return data;
+    });
   }
 }

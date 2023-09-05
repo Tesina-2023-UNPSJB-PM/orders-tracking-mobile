@@ -1,7 +1,7 @@
 import { Icon, makeStyles } from '@rneui/themed';
-import { Marker } from 'react-native-maps';
-import { IMarker } from '../../../Common/Interfaces/IMarker';
 import { View } from 'react-native';
+import { Marker } from 'react-native-maps';
+import { IMarker } from '../../../../Common/Interfaces/IMarker';
 
 const CircleBorder = ({ size, borderWidth, borderColor, children }: any) => (
   <View

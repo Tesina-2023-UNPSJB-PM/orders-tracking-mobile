@@ -16,6 +16,7 @@ import { LogoutButtonComponent } from './Components/LogoutButtonComponent';
 import { MAIN_ROUTES } from './Constants/RoutesConstants';
 import { AuthView } from './Views/AuthView';
 import { MyTabsView } from './Views/MyTabsView';
+import { AssignedServiceOrderEditionModal } from './Modals/AssignedServiceOrderEditionModal';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -69,6 +70,17 @@ export function MainRoutesView() {
             />
           )}
         </Stack.Screen>
+        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen
+            name={MAIN_ROUTES.ASSIGNED_SERVICE_ORDER_EDITION}
+            options={{
+              title: 'Edición de Órden',
+              headerStyle: { backgroundColor: theme.colors.background },
+              contentStyle: {backgroundColor: theme.colors.background}
+            }}
+            component={AssignedServiceOrderEditionModal}
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

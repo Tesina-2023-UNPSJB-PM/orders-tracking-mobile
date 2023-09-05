@@ -5,7 +5,7 @@ import { Location } from 'react-native-location';
 import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
 import { LocationRepository } from '../../Domain/Repository/LocationRepository';
 import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
-import { TrackingOrdersMapComponent } from '../Components/TrackingOrdersMapComponent';
+import { TrackingOrdersMapComponent } from '../Components/Tracking/TrackingOrdersMapComponent';
 import { APP_INITIAL_REGION } from '../Constants/MapsConstants';
 import { useOrdersMapsModelController } from '../Hook/useOrdersMapsModelController';
 
@@ -52,6 +52,7 @@ export function OrdersMapView({
     <View style={styles.container}>
       <TrackingOrdersMapComponent
         assignedServiceOrders={assignedServiceOrders}
+        serviceOrdersRepository={serviceOrdersRepository}
         currentLocation={currentLocation}
         region={region}></TrackingOrdersMapComponent>
     </View>
