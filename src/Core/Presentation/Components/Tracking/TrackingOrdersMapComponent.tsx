@@ -7,20 +7,18 @@ import {
 } from '../../Constants/MapsConstants';
 
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { BottomSheet } from '@rneui/themed';
 import { useState } from 'react';
 import { Location } from 'react-native-location';
+import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersRepository } from '../../../Domain/Repository/ServiceOrdersRepository';
-import { MAIN_ROUTES } from '../../Constants/RoutesConstants';
 import { useServiceOrderItemModelController } from '../../Hook/useServiceOrderItemModelController';
 import { AssignedOrdersMarkerPipe } from '../../Pipes/AssignedOrdersMarkerPipe';
 import { AssignedOrdersMapComponent } from './AssignedOrdersMapComponent';
 import { CurrentEmployeeLocationMapComponent } from './CurrentEmployeeLocationMapComponent';
 import SelectedOrderCard from './SelectedOrderCardComponent';
-import { AssignedServiceOrderEditionModalParams } from '../../Modals/AssignedServiceOrderEditionModal';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
-import { BottomSheet, Button, ListItem } from '@rneui/themed';
 
 type TrackingOrdersMapComponentOptions = {
   currentLocation: Location | undefined;
