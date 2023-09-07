@@ -25,7 +25,6 @@ export function RecentOrdersListComponent({
                 <ListItem.Title>{title}</ListItem.Title>
                 <ListItem.Subtitle>{subtitle}</ListItem.Subtitle>
               </ListItem.Content>
-              {/* <ListItem.Chevron /> */}
             </ListItem>
           ),
         )}

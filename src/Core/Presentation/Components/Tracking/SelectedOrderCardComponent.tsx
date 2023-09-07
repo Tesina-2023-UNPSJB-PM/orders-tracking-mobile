@@ -179,12 +179,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.colors.background,
     color: theme.colors.primary,
     borderRadius: 16,
-    height: 32,
+    //height: 32,
   },
   confirmButton: {
     backgroundColor: theme.colors.primary,
     borderRadius: 16,
-    height: 32,
+   // height: 32,
   },
 }));
 

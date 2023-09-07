@@ -1,10 +1,16 @@
 import { Button } from '@rneui/base';
-import dayjs from 'dayjs';
+import { Chip, makeStyles } from '@rneui/themed';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import { ScrollView, Text, View } from 'react-native';
+import {
+  CameraOptions,
+  ImageLibraryOptions,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
-import { makeStyles } from '@rneui/themed';
+import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
+import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
 
 export type AssignedServiceOrderEditionModalParams = {
   serviceOrder: ServiceOrderDetail;
@@ -24,132 +30,87 @@ export const AssignedServiceOrderEditionModal = ({ route }: any) => {
   const { firstName, lastName, phones: [phone] = ['-'] } = customer;
   const { description: addressDescription } = destination.address;
   const { description: statusDescription } = status;
-  const [cancelationReason, onChangeCancelationReason] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
 
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  
+
+  const data = [
+    { key: '1', value: 'Mobiles', disabled: true },
+    { key: '2', value: 'Appliances' },
+    { key: '3', value: 'Cameras' },
+    { key: '4', value: 'Computers', disabled: true },
+    { key: '5', value: 'Vegetables' },
+    { key: '6', value: 'Diary Products' },
+    { key: '7', value: 'Drinks' },
+  ];
+
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Info. del Servicio
-            </Text>
-          </View>
-
-          <Text numberOfLines={2} style={styles.text}>
-            Orden de Servicio: <Text style={styles.black}>{number}</Text>
-          </Text>
-          <Text numberOfLines={2} style={styles.text}>
-            Tipo de Servicio: <Text style={styles.black}>{serviceType}</Text>
-          </Text>
-          <Text numberOfLines={2} style={styles.text}>
-            Estado: <Text style={styles.black}>{statusDescription}</Text>
-          </Text>
-          <Text numberOfLines={4} style={styles.text}>
-            Descripción: <Text style={styles.black}>{description}</Text>
-          </Text>
-        </View>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Info. del Solicitante
-            </Text>
-          </View>
-          <Text style={styles.text}>
-            Nombre y Apellido:{' '}
-            <Text style={styles.black}>{`${firstName} ${lastName}`}</Text>
-          </Text>
-          <Text style={styles.text} numberOfLines={1}>
-            Teléfono: <Text style={styles.black}>{phone}</Text>
-          </Text>
-        </View>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Domicilio de Entrega
-            </Text>
-          </View>
-          <Text style={styles.text} numberOfLines={2}>
-            Calle: <Text style={styles.black}>{addressDescription} </Text>
-          </Text>
-        </View>
-        <View
+        <OrderInfoCardComponent
+          serviceOrder={serviceOrder}></OrderInfoCardComponent>
+        <OrderFormCardComponent
+          serviceOrder={serviceOrder}></OrderFormCardComponent>
+        {/* <View
           style={[
             styles.sectionContainer,
             styles.shadowProp,
             styles.lastSection,
           ]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Confirmación
-            </Text>
-          </View>
           <View>
-            <Text style={{ ...styles.text, marginBottom: 4 }}>
-              Observaciones
-            </Text>
-            <TextInput
-              autoCorrect={false}
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitleContainer.sectionTitle}>
+                Documentos
+              </Text>
+            </View>
+            <View
               style={{
-                ...styles.input,
-                paddingLeft: 12,
-                fontSize: 12.5,
-                justifyContent: 'center',
-                textAlignVertical: 'center',
-                fontWeight: 'bold',
-              }}
-              multiline={true}
-              placeholder="Ingrese observaciones"
-              onChangeText={onChangeCancelationReason}
-            />
-          </View>
-
-          <View>
-            <Text style={{ ...styles.text, marginBottom: 4 }}>
-              Fecha y hora de visita
-            </Text>
-            <Button
-              titleStyle={{
-                color: 'black',
-                width: '100%',
-                alignItems: 'flex-start',
-                textAlign: 'left',
-                fontSize: 12.5,
-                fontWeight: 'bold',
-              }}
-              buttonStyle={{
-                backgroundColor: 'white',
+                flexDirection: 'row',
+                alignItems: 'center',
                 justifyContent: 'flex-start',
-                padding: 0,
-                margin: 0,
-              }}
-              containerStyle={styles.input}
-              title={dayjs.utc(date).format('DD/MM/YYYY HH:mm')}
-              onPress={() => setOpen(true)}
-            />
-            <DatePicker
-              modal
-              open={open}
-              date={date}
-              onConfirm={date => {
-                setOpen(false);
-                setDate(date);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
+              }}>
+              <Chip
+                title="Mi Imagen"
+                icon={{
+                  name: 'close',
+                  type: 'antdesign',
+                  size: 20,
+                  color: 'white',
+                }}
+                iconRight
+              />
+              <Chip
+                title="Mi Documento"
+                icon={{
+                  name: 'close',
+                  type: 'antdesign',
+                  size: 20,
+                  color: 'white',
+                }}
+                iconRight
+              />
+            </View>
           </View>
-        </View>
+          <View>
+            <Button
+              titleStyle={styles.titleSecondaryButton}
+              buttonStyle={styles.secondaryButton}
+              title={'Adjuntar Documento'}
+              onPress={openImagePicker}></Button>
+            <Button
+              titleStyle={styles.titleSecondaryButton}
+              buttonStyle={styles.secondaryButton}
+              title={'Tomar Foto'}
+              onPress={handleCameraLaunch}></Button>
+          </View>
+        </View> */}
 
         <View style={styles.buttonsContainer}>
           <Button
             titleStyle={styles.titleButton}
             buttonStyle={styles.confirmButton}
-            title="Guardar Información"
+            title="GUARDAR INFORMACIÓN"
             onPress={() => console.log('onConfirm')}></Button>
         </View>
       </ScrollView>
@@ -162,7 +123,9 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 10,
-    marginVertical: 20,
+    //marginVertical: 20,
+    // borderWidth: 1,
+    // borderColor: 'black',
   },
   sectionContainer: {
     width: '100%',
@@ -172,12 +135,15 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 10,
   },
   buttonsContainer: {
-    marginVertical: 10,
+    marginHorizontal: 10,
+    marginBottom: 0,
     flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    //flexDirection: 'row',
+    //width: '100%',
+    justifyContent: 'flex-end',
+    //alignItems: 'flex-end',
+    // borderWidth: 1,
+    // borderColor: 'black',
   },
   titleButton: {
     fontSize: 12.5,
@@ -187,13 +153,25 @@ const useStyles = makeStyles(theme => ({
   cancelButton: {
     backgroundColor: theme.colors.background,
     borderRadius: 16,
-    height: 32,
   },
   confirmButton: {
     backgroundColor: theme.colors.primary,
     borderRadius: 16,
+    width: '100%',
+  },
+  titleSecondaryButton: {
+    fontSize: 12.5,
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+  },
+  secondaryButton: {
+    backgroundColor: theme.colors.white,
+    color: theme.colors.primary,
+    borderRadius: 16,
     height: 32,
-    width: '100%'
+    width: '100%',
+    borderColor: theme.colors.primary,
+    borderWidth: 1,
   },
   sectionTitleContainer: {
     paddingBottom: 4,

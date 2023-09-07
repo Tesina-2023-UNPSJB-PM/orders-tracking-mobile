@@ -20,6 +20,7 @@ import SelectedOrderCard from './SelectedOrderCardComponent';
 import { AssignedServiceOrderEditionModalParams } from '../../Modals/AssignedServiceOrderEditionModal';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
+import { BottomSheet, Button, ListItem } from '@rneui/themed';
 
 type TrackingOrdersMapComponentOptions = {
   currentLocation: Location | undefined;
@@ -86,13 +87,13 @@ export function TrackingOrdersMapComponent({
       </MapView>
 
       {selectedOrder && (
-        <View style={styles.centeredView}>
-          <SelectedOrderCard
-            serviceOrder={selectedOrder}
-            onCancel={() => console.log('onCancel')}
-            onConfirm={() => goToAssignedOrderDetailModal(selectedOrder?.id)}
-            onClose={() => setSelectedOrder(null)}></SelectedOrderCard>
-        </View>
+        <BottomSheet modalProps={{}} isVisible={selectedOrder != undefined}>
+        <SelectedOrderCard
+          serviceOrder={selectedOrder}
+          onCancel={() => console.log('onCancel')}
+          onConfirm={() => goToAssignedOrderDetailModal(selectedOrder?.id)}
+          onClose={() => setSelectedOrder(null)}></SelectedOrderCard>
+      </BottomSheet>
       )}
     </View>
   );
