@@ -24,26 +24,6 @@ export type AssignedServiceOrderEditionModalParams = {
 export const AssignedServiceOrderEditionModal = ({ route }: any) => {
   const styles = useStyles();
   const serviceOrder = route.params.serviceOrder as ServiceOrderDetail;
-  const { number, description, status, type, customer, destination } =
-    serviceOrder;
-  const { name: serviceType } = type;
-  const { firstName, lastName, phones: [phone] = ['-'] } = customer;
-  const { description: addressDescription } = destination.address;
-  const { description: statusDescription } = status;
-
-  const [selectedImage, setSelectedImage] = useState('');
-
-  
-
-  const data = [
-    { key: '1', value: 'Mobiles', disabled: true },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers', disabled: true },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
 
   return (
     <View style={styles.container}>
@@ -52,59 +32,6 @@ export const AssignedServiceOrderEditionModal = ({ route }: any) => {
           serviceOrder={serviceOrder}></OrderInfoCardComponent>
         <OrderFormCardComponent
           serviceOrder={serviceOrder}></OrderFormCardComponent>
-        {/* <View
-          style={[
-            styles.sectionContainer,
-            styles.shadowProp,
-            styles.lastSection,
-          ]}>
-          <View>
-            <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitleContainer.sectionTitle}>
-                Documentos
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-              }}>
-              <Chip
-                title="Mi Imagen"
-                icon={{
-                  name: 'close',
-                  type: 'antdesign',
-                  size: 20,
-                  color: 'white',
-                }}
-                iconRight
-              />
-              <Chip
-                title="Mi Documento"
-                icon={{
-                  name: 'close',
-                  type: 'antdesign',
-                  size: 20,
-                  color: 'white',
-                }}
-                iconRight
-              />
-            </View>
-          </View>
-          <View>
-            <Button
-              titleStyle={styles.titleSecondaryButton}
-              buttonStyle={styles.secondaryButton}
-              title={'Adjuntar Documento'}
-              onPress={openImagePicker}></Button>
-            <Button
-              titleStyle={styles.titleSecondaryButton}
-              buttonStyle={styles.secondaryButton}
-              title={'Tomar Foto'}
-              onPress={handleCameraLaunch}></Button>
-          </View>
-        </View> */}
 
         <View style={styles.buttonsContainer}>
           <Button
