@@ -3,7 +3,7 @@ export interface ServiceOrderItem {
   number: string;
   description: string;
   creationTime: string;
-  priority: string;
+  priority: Priority;
   status: Status;
   type: Type;
   customerId: number;
@@ -49,3 +49,5 @@ export interface Status {
   code: string;
   description: string;
 }
+
+export type Priority = 'LOW' | 'MEDIUM' | 'HIGH';

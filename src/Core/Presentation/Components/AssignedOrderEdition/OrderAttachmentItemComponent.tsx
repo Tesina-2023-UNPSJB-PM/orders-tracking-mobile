@@ -8,11 +8,23 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-export function OrderAttachmentItemComponent() {
+export function OrderAttachmentItemComponent({
+  onChangeAttachment,
+}: {
+  onChangeAttachment: (attachments: string) => void;
+}) {
   const styles = useStyles();
 
-  const [selectedImage, setSelectedImage] = useState({ uri: '', fileName: '' });
-  const [selectedPhoto, setSelectedPhoto] = useState({ uri: '', fileName: '' });
+  const [selectedImage, setSelectedImage] = useState({
+    uri: '',
+    fileName: '',
+    base64: '',
+  });
+  const [selectedPhoto, setSelectedPhoto] = useState({
+    uri: '',
+    fileName: '',
+    base64: '',
+  });
 
   const openImagePicker = () => {
     const options: ImageLibraryOptions = {
@@ -30,7 +42,8 @@ export function OrderAttachmentItemComponent() {
       } else {
         const uri = response.assets?.[0]?.uri ?? '';
         const fileName = response.assets?.[0]?.fileName ?? '';
-        setSelectedImage({ uri, fileName });
+        const base64 = response.assets?.[0]?.base64 ?? '';
+        setSelectedImage({ uri, fileName, base64 });
       }
     });
   };
@@ -38,7 +51,7 @@ export function OrderAttachmentItemComponent() {
   const handleCameraLaunch = () => {
     const options: CameraOptions = {
       mediaType: 'photo',
-      includeBase64: false,
+      includeBase64: true,
       maxHeight: 2000,
       maxWidth: 2000,
     };
@@ -51,13 +64,15 @@ export function OrderAttachmentItemComponent() {
       } else {
         const uri = response.assets?.[0]?.uri ?? '';
         const fileName = response.assets?.[0]?.fileName ?? '';
-        setSelectedPhoto({ uri, fileName });
+        const base64 = response.assets?.[0]?.base64 ?? '';
+        setSelectedPhoto({ uri, fileName, base64 });
+        onChangeAttachment(base64);
       }
     });
   };
   return (
     <View>
-      <View>
+      {/* <View>
         <Text style={{ ...styles.text, marginBottom: 4 }}>Archivos</Text>
         <Button
           titleStyle={{
@@ -83,7 +98,7 @@ export function OrderAttachmentItemComponent() {
           onPress={openImagePicker}>
           Seleccionar Archivo
         </Button>
-      </View>
+      </View> */}
 
       {selectedImage.fileName.length > 0 && (
         <ListItem

@@ -8,6 +8,7 @@ import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRe
 import { TrackingOrdersMapComponent } from '../Components/Tracking/TrackingOrdersMapComponent';
 import { APP_INITIAL_REGION } from '../Constants/MapsConstants';
 import { useOrdersMapsModelController } from '../Hook/useOrdersMapsModelController';
+import { useNavigationState } from '@react-navigation/native';
 
 type OrdersMapViewOptions = {
   locationRepository: LocationRepository;
@@ -30,6 +31,8 @@ export function OrdersMapView({
     ServiceOrderItem[]
   >([]);
 
+  const index = useNavigationState(state => state.index);
+
   useEffect(() => {
     watchPosition({
       success: ([location]: Location[]) => {
@@ -42,11 +45,17 @@ export function OrdersMapView({
         });
       },
     });
+  }, []);
+
+  useEffect(() => {
+    if (index !== 1) return;
+    console.log('🚀 ~ file: HomeView.tsx:36 ~ useEffect ~ index:', index);
+    console.log('🚀 ~ file: OrdersMapView.tsx:35 ~ index:', index);
 
     serviceOrdersRepository
       .getEmployeeOrders()
       .then(orders => setAssignedServiceOrders(orders));
-  }, []);
+  }, [index]);
 
   return (
     <View style={styles.container}>

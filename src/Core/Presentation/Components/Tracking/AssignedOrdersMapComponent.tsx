@@ -31,20 +31,32 @@ export function AssignedOrdersMapComponent({
   onOrderSelected,
 }: AssignedOrdersMapComponentProps) {
   const styles = useStyles();
-  return assignedOrdersMarkers?.map(({ key, iconName, ...markerProps }) => (
-    <Marker key={key} {...markerProps} onPress={() => onOrderSelected(key)}>
-      {key == selectedOrderKey ? (
-        <CircleBorder
-          size={styles.circleStyle.size}
-          borderWidth={styles.circleStyle.borderWith}
-          borderColor={styles.circleStyle.borderColor}>
-          <Icon name={iconName} size={14} type="material-community"></Icon>
-        </CircleBorder>
-      ) : (
-        <Icon name={iconName} size={14} type="material-community"></Icon>
-      )}
-    </Marker>
-  ));
+  return assignedOrdersMarkers?.map(
+    ({ key, iconName, iconColor, ...markerProps }) => (
+      <Marker key={key} {...markerProps} onPress={() => onOrderSelected(key)}>
+        {/* <Icon
+            name={iconName}
+            color={iconColor}
+            size={24}
+            type="material-community"></Icon> */}
+        {key != selectedOrderKey ? (
+          <Icon
+            name={iconName}
+            color={iconColor}
+            size={24}
+            type="material-community"></Icon>
+        ) : (
+          <CircleBorder size={32} borderWidth={3} borderColor={iconColor}>
+            <Icon
+              name={iconName}
+              color={iconColor}
+              size={24}
+              type="material-community"></Icon>
+          </CircleBorder>
+        )}
+      </Marker>
+    ),
+  );
 }
 
 const useStyles = makeStyles(theme => ({

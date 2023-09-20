@@ -7,28 +7,52 @@ import DatePicker from 'react-native-date-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { OrderAttachmentItemComponent } from './OrderAttachmentItemComponent';
+import { ServiceOrderHistoryPost } from '../../../Domain/Model/ServiceOrderHistoryPost';
 
 export type OrderFormCardComponentProps = {
   serviceOrder: ServiceOrderDetail;
+  onInfoUpdated: (serviceOrderHistoryPost: ServiceOrderHistoryPost) => void;
 };
 
 export function OrderFormCardComponent({
   serviceOrder,
+  onInfoUpdated,
 }: OrderFormCardComponentProps) {
   const [finish, setFinish] = useState(false);
   const styles = useStyles();
-
-  const [cancelationReason, onChangeCancelationReason] = useState('');
+  const { id: serviceOrderId, status, execution } = serviceOrder;
+  const { code: newStatus } = status;
+  const { executorEmployeId: assignedEmployeeId = null } = execution;
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
-  const [selected, setSelected] = useState('');
+  const [reasonId, setReasonId] = useState(null);
 
-  const data = [
-    { key: '1', value: 'Cliente fuera de domicilio' },
-    { key: '2', value: 'Otros' },
-  ];
+  const [historyPost, setHistoryPost] = useState<ServiceOrderHistoryPost>({
+    assignedEmployeeId,
+    newStatus,
+    serviceOrderId,
+    attachments: null,
+    executionId: null,
+    observations: null,
+    reasonId: null,
+  });
+
+  const onChangeInputValue = (_historyPost: ServiceOrderHistoryPost) => {
+    setHistoryPost(_historyPost);
+    onInfoUpdated(historyPost);
+  };
+
+  const onChangeStatus = () => {
+    const _newStatus = !finish;
+    const newStatus = _newStatus ? 'DONE' : 'PENDING';
+    setFinish(_newStatus);
+    setHistoryPost({ ...historyPost, newStatus });
+    onInfoUpdated(historyPost);
+  };
+
+  const data = [{ key: '1', value: 'Cliente fuera de domicilio' }];
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardContainer}>
@@ -48,7 +72,9 @@ export function OrderFormCardComponent({
         }}
         textStyle={{ ...styles.text, marginLeft: 0, paddingLeft: 0 }}
         checked={finish}
-        onPress={() => setFinish(!finish)}
+        onPress={() => {
+          onChangeStatus();
+        }}
         title="Finalizar"
         iconRight={true}
       />
@@ -64,11 +90,19 @@ export function OrderFormCardComponent({
           dropdownStyles={{ borderColor: '#E5E5E5' }}
           dropdownTextStyles={styles.text}
           boxStyles={styles.select}
-          setSelected={(val: any) => setSelected(val)}
+          setSelected={(val: any) => {
+            setReasonId(val);
+          }}
           data={data}
-          save="value"
+          save="key"
           placeholder="Seleccionar motivo"
           searchPlaceholder=""
+          onSelect={() =>
+            onChangeInputValue({
+              ...historyPost,
+              reasonId,
+            })
+          }
         />
       </View>
 
@@ -86,7 +120,9 @@ export function OrderFormCardComponent({
           }}
           multiline={true}
           placeholder="Ingrese observaciones"
-          onChangeText={onChangeCancelationReason}
+          onChangeText={observations =>
+            onChangeInputValue({ ...historyPost, observations })
+          }
         />
       </View>
 
@@ -125,7 +161,10 @@ export function OrderFormCardComponent({
         />
       </View>
 
-      <OrderAttachmentItemComponent></OrderAttachmentItemComponent>
+      <OrderAttachmentItemComponent
+        onChangeAttachment={attachments =>
+          onInfoUpdated({ ...historyPost, attachments })
+        }></OrderAttachmentItemComponent>
     </Card>
   );
 }

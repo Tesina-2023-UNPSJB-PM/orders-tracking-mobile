@@ -1,19 +1,22 @@
 import { Button } from '@rneui/base';
-import { Chip, makeStyles } from '@rneui/themed';
+import { makeStyles } from '@rneui/themed';
 import { useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import {
-  CameraOptions,
-  ImageLibraryOptions,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
+import { Alert, ScrollView, View } from 'react-native';
 import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
+import { ServiceOrderHistoryPost } from '../../Domain/Model/ServiceOrderHistoryPost';
 import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
 import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MAIN_ROUTES } from '../Constants/RoutesConstants';
+import { createSuccessDialogAlert } from '../../../Common/Components/SuccessDialogComponent';
+import { LoadingDialogComponent } from '../../../Common/Components/LoadingDialogComponent';
 
 export type AssignedServiceOrderEditionModalParams = {
-  serviceOrder: ServiceOrderDetail;
+  route: any;
+  serviceOrder?: ServiceOrderDetail;
+  serviceOrdersRepository: ServiceOrdersRepository;
 };
 
 /**
@@ -21,24 +24,55 @@ export type AssignedServiceOrderEditionModalParams = {
  * @param {*} param0
  * @returns
  */
-export const AssignedServiceOrderEditionModal = ({ route }: any) => {
+export const AssignedServiceOrderEditionModal = ({
+  route,
+  serviceOrdersRepository,
+}: AssignedServiceOrderEditionModalParams) => {
   const styles = useStyles();
   const serviceOrder = route.params.serviceOrder as ServiceOrderDetail;
+  const [historyPost, setHistoryPost] =
+    useState<ServiceOrderHistoryPost | null>(null);
+
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const [savingInfo, setSavingInfo] = useState(false);
+
+  const onInfoUpdated = (serviceOrderHistoryPost: ServiceOrderHistoryPost) => {
+    setHistoryPost(serviceOrderHistoryPost);
+  };
+
+  const onSaveHistoryPost = async () => {
+    if (!historyPost) return;
+    setSavingInfo(true);
+    await serviceOrdersRepository.addServiceOrderHistoryRecord(historyPost);
+    setSavingInfo(false);
+    createSuccessDialogAlert(
+      'Orden de servicio actualizada!',
+      'La orden de servicio fue actualizada con exito!',
+      { text: 'aceptar', onPress: () => navigation.navigate(MAIN_ROUTES.HOME) },
+    );
+  };
 
   return (
     <View style={styles.container}>
+      <LoadingDialogComponent
+        title="Actualizando información"
+        description="Espere..."
+        isVisible={savingInfo}></LoadingDialogComponent>
+
       <ScrollView>
         <OrderInfoCardComponent
           serviceOrder={serviceOrder}></OrderInfoCardComponent>
         <OrderFormCardComponent
-          serviceOrder={serviceOrder}></OrderFormCardComponent>
+          serviceOrder={serviceOrder}
+          onInfoUpdated={onInfoUpdated}></OrderFormCardComponent>
 
         <View style={styles.buttonsContainer}>
           <Button
             titleStyle={styles.titleButton}
             buttonStyle={styles.confirmButton}
             title="GUARDAR INFORMACIÓN"
-            onPress={() => console.log('onConfirm')}></Button>
+            onPress={() => onSaveHistoryPost()}></Button>
         </View>
       </ScrollView>
     </View>
