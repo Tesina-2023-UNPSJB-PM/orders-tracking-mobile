@@ -6,6 +6,8 @@ export type SuccessDialogComponentProps = {
   description: string;
   doneButtonTitle: string;
   doneButtonHandler: Function;
+  isLoading: boolean;
+  isVisible: boolean;
 };
 
 export function SuccessDialogComponent({
@@ -13,19 +15,26 @@ export function SuccessDialogComponent({
   description,
   doneButtonTitle,
   doneButtonHandler,
+  isLoading,
+  isVisible
 }: SuccessDialogComponentProps) {
   return (
-    <Dialog>
-      {/* <Dialog.Loading /> */}
-      <Dialog.Title title={title} />
-      <Text>{description}</Text>
-      <Dialog.Actions>
-        <Dialog.Button
-          title={doneButtonTitle}
-          onPress={() => doneButtonHandler()}
-        />
-      </Dialog.Actions>
-    </Dialog>
+    isLoading ? (
+      <Dialog isVisible={isVisible}>
+        <Dialog.Loading />
+      </Dialog>
+    ) : (
+      <Dialog isVisible={isVisible}>
+        <Dialog.Title title={title} />
+        <Text>{description}</Text>
+        <Dialog.Actions>
+          <Dialog.Button
+            title={doneButtonTitle}
+            onPress={() => doneButtonHandler()}
+          />
+        </Dialog.Actions>
+      </Dialog>
+    )
   );
 }
 

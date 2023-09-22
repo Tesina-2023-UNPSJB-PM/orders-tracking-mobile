@@ -5,6 +5,7 @@ import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersDatasource } from './ServiceOrdersDatasource';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { ServiceOrderHistoryPost } from '../../../Domain/Model/ServiceOrderHistoryPost';
+import { MasterData } from '../../../Domain/Model/MasterDataModel';
 
 export class RestServiceOrdersDatasourceImpl
   implements ServiceOrdersDatasource
@@ -71,4 +72,11 @@ export class RestServiceOrdersDatasourceImpl
     const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/execution-history/${historyId}/attachment`;
     return axios.post<void>(url, attachment).then(({ data }) => data);
   }
+
+  async fetchMasterData(): Promise<MasterData> {
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/master-data`;
+    return axios.get<MasterData>(url).then(({ data }) => data);
+  }
+
+  
 }

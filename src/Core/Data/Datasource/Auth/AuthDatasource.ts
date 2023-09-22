@@ -11,4 +11,5 @@ export interface AuthDataSource {
   getCurrentUser(): UserInfo | undefined;
   authUser(username: string, password: string): Promise<UserInfo | undefined>;
   subscribeCurrentUser(handler: () => void): Unsubscribe;
+  
 }

@@ -8,14 +8,17 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { OrderAttachmentItemComponent } from './OrderAttachmentItemComponent';
 import { ServiceOrderHistoryPost } from '../../../Domain/Model/ServiceOrderHistoryPost';
+import { Reason } from '../../../Domain/Model/MasterDataModel';
 
 export type OrderFormCardComponentProps = {
   serviceOrder: ServiceOrderDetail;
+  reasons: Reason[];
   onInfoUpdated: (serviceOrderHistoryPost: ServiceOrderHistoryPost) => void;
 };
 
 export function OrderFormCardComponent({
   serviceOrder,
+  reasons,
   onInfoUpdated,
 }: OrderFormCardComponentProps) {
   const [finish, setFinish] = useState(false);
@@ -52,7 +55,7 @@ export function OrderFormCardComponent({
     onInfoUpdated(historyPost);
   };
 
-  const data = [{ key: '1', value: 'Cliente fuera de domicilio' }];
+  const data = reasons.map(({ id, name }) => ({ key: id, value: name }));
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.cardContainer}>

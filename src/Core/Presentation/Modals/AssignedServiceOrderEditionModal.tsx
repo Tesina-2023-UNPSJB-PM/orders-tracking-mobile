@@ -1,17 +1,19 @@
-import { Button } from '@rneui/base';
-import { makeStyles } from '@rneui/themed';
-import { useState } from 'react';
-import { Alert, ScrollView, View } from 'react-native';
-import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
-import { ServiceOrderHistoryPost } from '../../Domain/Model/ServiceOrderHistoryPost';
-import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
-import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
-import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Button } from '@rneui/base';
+import { makeStyles } from '@rneui/themed';
+import { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import {
+  SuccessDialogComponent
+} from '../../../Common/Components/SuccessDialogComponent';
+import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
+import { ServiceOrderHistoryPost } from '../../Domain/Model/ServiceOrderHistoryPost';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
+import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
+import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
 import { MAIN_ROUTES } from '../Constants/RoutesConstants';
-import { createSuccessDialogAlert } from '../../../Common/Components/SuccessDialogComponent';
-import { LoadingDialogComponent } from '../../../Common/Components/LoadingDialogComponent';
+import { Reason } from '../../Domain/Model/MasterDataModel';
 
 export type AssignedServiceOrderEditionModalParams = {
   route: any;
@@ -36,6 +38,9 @@ export const AssignedServiceOrderEditionModal = ({
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const [savingInfo, setSavingInfo] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [reasons, setReasons] = useState<Reason[]>([]);
 
   const onInfoUpdated = (serviceOrderHistoryPost: ServiceOrderHistoryPost) => {
     setHistoryPost(serviceOrderHistoryPost);
@@ -44,27 +49,37 @@ export const AssignedServiceOrderEditionModal = ({
   const onSaveHistoryPost = async () => {
     if (!historyPost) return;
     setSavingInfo(true);
+    setLoading(true);
     await serviceOrdersRepository.addServiceOrderHistoryRecord(historyPost);
-    setSavingInfo(false);
-    createSuccessDialogAlert(
-      'Orden de servicio actualizada!',
-      'La orden de servicio fue actualizada con exito!',
-      { text: 'aceptar', onPress: () => navigation.navigate(MAIN_ROUTES.HOME) },
-    );
+    setLoading(false);
   };
+
+  useEffect(() => {
+    serviceOrdersRepository.getMasterData().then((masterData) => {
+      console.log("🚀 ~ file: AssignedServiceOrderEditionModal.tsx:59 ~ serviceOrdersRepository.getMasterData ~ masterData:", masterData)
+      setReasons(masterData.reasons)
+    })
+  },[])
 
   return (
     <View style={styles.container}>
-      <LoadingDialogComponent
+      <SuccessDialogComponent
         title="Actualizando información"
-        description="Espere..."
-        isVisible={savingInfo}></LoadingDialogComponent>
+        description="Su información fue actualizada correctamente!"
+        isLoading={loading}
+        isVisible={savingInfo}
+        doneButtonTitle="Aceptar"
+        doneButtonHandler={() => {
+          setSavingInfo(false);
+          navigation.navigate(MAIN_ROUTES.HOME);
+        }}></SuccessDialogComponent>
 
       <ScrollView>
         <OrderInfoCardComponent
           serviceOrder={serviceOrder}></OrderInfoCardComponent>
         <OrderFormCardComponent
           serviceOrder={serviceOrder}
+          reasons={reasons}
           onInfoUpdated={onInfoUpdated}></OrderFormCardComponent>
 
         <View style={styles.buttonsContainer}>
@@ -84,9 +99,6 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 10,
-    //marginVertical: 20,
-    // borderWidth: 1,
-    // borderColor: 'black',
   },
   sectionContainer: {
     width: '100%',
@@ -99,12 +111,7 @@ const useStyles = makeStyles(theme => ({
     marginHorizontal: 10,
     marginBottom: 0,
     flex: 1,
-    //flexDirection: 'row',
-    //width: '100%',
     justifyContent: 'flex-end',
-    //alignItems: 'flex-end',
-    // borderWidth: 1,
-    // borderColor: 'black',
   },
   titleButton: {
     fontSize: 12.5,

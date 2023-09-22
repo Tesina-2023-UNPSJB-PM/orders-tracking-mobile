@@ -152,7 +152,7 @@ export function OrderAttachmentItemComponent({
             }}>
             <ListItem.Content>
               <ListItem.Title style={{ ...styles.text }}>
-                {selectedPhoto.fileName ?? '-'}
+                Imagen #1
               </ListItem.Title>
             </ListItem.Content>
             <Icon name="picture" size={15} type="antdesign" color="grey" />
