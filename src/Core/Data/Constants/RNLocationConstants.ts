@@ -12,7 +12,7 @@ export const APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG: RequestPermissionOptions =
   };
 
 export const APP_DEFAULT_LOCATION_CONFIG: ConfigureOptions = {
-  distanceFilter: 100, // Meters
+  distanceFilter: 10, // Meters
   desiredAccuracy: {
     ios: 'best',
     android: 'highAccuracy',
