@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build:android": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res --verbose && cd android && ./gradlew assembleDebug",
     "android": "react-native run-android",
     "ios": "npx react-native run-ios",
     "ios-dev": "npx react-native run-ios --scheme \"OrdersTrackingDev\"",
