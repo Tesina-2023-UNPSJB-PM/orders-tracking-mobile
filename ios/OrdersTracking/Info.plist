@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -44,6 +44,8 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>En uso</string>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permitir seleccionar imagenes y fotos</string>
+	<key>NSCameraUsageDescription</key>
 	<string>Permitir seleccionar imagenes y fotos</string>
 	<key>UIAppFonts</key>
 	<array>

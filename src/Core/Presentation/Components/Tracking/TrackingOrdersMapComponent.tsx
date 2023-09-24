@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Config from 'react-native-config';
-import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
+import MapView, { LatLng, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import {
   APP_MAP_STYLE,
   APP_MAX_ZOOM_LEVEL,
@@ -10,8 +10,9 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomSheet, Button } from '@rneui/themed';
-import { SetStateAction, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Location } from 'react-native-location';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersRepository } from '../../../Domain/Repository/ServiceOrdersRepository';
@@ -20,8 +21,7 @@ import { AssignedOrdersMarkerPipe } from '../../Pipes/AssignedOrdersMarkerPipe';
 import { AssignedOrdersMapComponent } from './AssignedOrdersMapComponent';
 import { CurrentEmployeeLocationMapComponent } from './CurrentEmployeeLocationMapComponent';
 import SelectedOrderCard from './SelectedOrderCardComponent';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { LoadingDialogComponent } from '../../../../Common/Components/LoadingDialogComponent';
+import { TrackingOrdersRouteComponent } from './TrackingOrdersRouteComponent';
 
 type TrackingOrdersMapComponentOptions = {
   currentLocation: Location | undefined;
@@ -93,6 +93,18 @@ export function TrackingOrdersMapComponent({
     );
   };
 
+  const { latitude = 0, longitude = 0 } = coordinate ?? {
+    latitude: 0,
+    longitude: 0,
+  };
+
+  const mapDirectionsMarkers: LatLng[] = [
+    { latitude, longitude },
+    ...AssignedOrdersMarkerPipe(assignedServiceOrders).map(
+      ({ coordinate }) => coordinate,
+    ),
+  ];
+
   return (
     <View style={styles.container}>
       <MapView
@@ -111,6 +123,8 @@ export function TrackingOrdersMapComponent({
           selectedOrderKey={`${selectedOrder?.id}`}
           onOrderSelected={onOrderSelected}
         />
+        <TrackingOrdersRouteComponent
+          coordinates={mapDirectionsMarkers}></TrackingOrdersRouteComponent>
       </MapView>
 
       {selectedOrder && (
@@ -123,7 +137,7 @@ export function TrackingOrdersMapComponent({
             itemWidth={ITEM_WIDTH}
             onSnapToItem={_index => {
               setIndex(_index);
-              onOrderSelected(`${assignedServiceOrders[_index].id}`)
+              onOrderSelected(`${assignedServiceOrders[_index].id}`);
             }}
             useScrollView={true}
             vertical={false}

@@ -80,6 +80,7 @@ export function OrderFormCardComponent({
         }}
         title="Finalizar"
         iconRight={true}
+        iconType='material-community'
       />
 
       <View>
