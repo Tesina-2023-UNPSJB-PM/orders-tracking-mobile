@@ -22,7 +22,7 @@ export class RNLocationRepositoryImpl implements LocationRepository {
     this.locationSubscription?.();
   }
 
-  public async watchPosition({success}: WatchPositionOptions): Promise<void> {
+  public async watchPosition({ success }: WatchPositionOptions): Promise<void> {
     this.removeSubscription();
     const granted = await RNLocation.requestPermission(
       APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG,
@@ -38,13 +38,13 @@ export class RNLocationRepositoryImpl implements LocationRepository {
         const [location] = locations;
         const currentUser = this.authDatasource.getCurrentUser();
         if (currentUser) {
-          const {username, firstName, lastName} = currentUser;
+          const { username, firstName, lastName, id } = currentUser.userProfile;
           this.locationDatasource.sendLocation({
             location: {
               latitude: location.latitude,
               longitude: location.longitude,
             },
-            employee: {username, firstName, lastName},
+            employee: { id, username, firstName, lastName },
             employeeStatus: 'on_duty',
           });
         }

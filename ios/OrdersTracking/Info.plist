@@ -43,6 +43,8 @@
 	<string>Siempre</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>En uso</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permitir seleccionar imagenes y fotos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>MaterialIcons.ttf</string>

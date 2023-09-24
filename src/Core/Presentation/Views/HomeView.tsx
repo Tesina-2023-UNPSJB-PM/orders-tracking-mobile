@@ -8,6 +8,7 @@ import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardCompo
 import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
 import { useServiceOrderItemModelController } from '../Hook/useServiceOrderItemModelController';
 import { RecentActivityListItemPipe } from '../Pipes/RecentActivityListItemPipe';
+import { useNavigationState } from '@react-navigation/native';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
@@ -26,14 +27,21 @@ export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
     RecentActivityListItem[]
   >([]);
 
+  const index = useNavigationState(state => state.index);
+
+  const [refresh, setRefresh] = useState(true);
+
   useEffect(() => {
+    if (index !== 0) return;
+    console.log("🚀 ~ file: HomeView.tsx:36 ~ useEffect ~ index:", index)
+
     getEmployeeOrdersSummary().then(
       ({ recentActivity, assignedServiceOrders }) => {
         setAssignedPendingOrders(assignedServiceOrders.length);
         setRecentActivityListItem(RecentActivityListItemPipe(recentActivity));
       },
     );
-  }, []);
+  }, [index]);
 
   return (
     <View style={styles.container}>

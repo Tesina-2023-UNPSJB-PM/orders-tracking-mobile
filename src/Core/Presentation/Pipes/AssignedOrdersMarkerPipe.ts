@@ -1,5 +1,8 @@
 import { IMarker } from '../../../Common/Interfaces/IMarker';
-import { ServiceOrderItem } from '../../Domain/Model/ServiceOrderItemModel';
+import {
+  Priority,
+  ServiceOrderItem,
+} from '../../Domain/Model/ServiceOrderItemModel';
 
 const getIconColor = (code: string) => {
   switch (code) {
@@ -27,15 +30,42 @@ const getIconName = (code: string) => {
   }
 };
 
+export const getIconNameByPriority = (code: Priority) => {
+  switch (code) {
+    case 'HIGH':
+      return {
+        iconName: 'alert-octagon',
+        iconColor: '#eb445a',
+        iconText: 'Prioridad Alta',
+      };
+    case 'MEDIUM':
+      return {
+        iconName: 'alert-octagon',
+        iconColor: '#ffc409',
+        iconText: 'Prioridad Media',
+      };
+    case 'LOW':
+      return {
+        iconName: 'alert-octagon',
+        iconColor: '#4A4E69',
+        iconText: 'Prioridad Baja',
+      };
+    default:
+      return {
+        iconName: 'alert-octagon',
+        iconColor: '#4A4E69',
+        iconText: 'Prioridad Baja',
+      };
+  }
+};
+
 export function AssignedOrdersMarkerPipe(
   serviceOrdersItems: ServiceOrderItem[],
 ): IMarker[] {
   if (!serviceOrdersItems) return [];
-  return serviceOrdersItems.map(({ id, destination, status }) => {
+  return serviceOrdersItems.map(({ id, destination, priority }) => {
     const { latitude, longitude } = destination.address;
-    const { code } = status;
-    const iconName = getIconName(code);
-    const iconColor = getIconColor(code);
+    const { iconName, iconColor } = getIconNameByPriority(priority);
     return {
       key: `${id}`,
       title: ``,

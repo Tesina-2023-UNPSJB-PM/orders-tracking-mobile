@@ -76,10 +76,15 @@ export function MainRoutesView() {
             options={{
               title: 'Edición de Órden',
               headerStyle: { backgroundColor: theme.colors.background },
-              contentStyle: {backgroundColor: theme.colors.background}
-            }}
-            component={AssignedServiceOrderEditionModal}
-          />
+              contentStyle: { backgroundColor: theme.colors.background },
+            }}>
+            {props => (
+              <AssignedServiceOrderEditionModal
+                {...props}
+                serviceOrdersRepository={serviceOrdersRepository}
+              />
+            )}
+          </Stack.Screen>
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

@@ -15,6 +15,9 @@ export function MyTabsView({
       inactiveColor="#4A4E69">
       <Tab.Screen
         name="Home"
+        listeners={{tabPress:() => {
+          
+        }}}
         children={props => (
           <HomeView
             {...props}

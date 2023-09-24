@@ -4,6 +4,8 @@ import { EmployeeOrdersSummary } from '../../../Domain/Model/EmployeeOrdersSumma
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { ServiceOrdersDatasource } from './ServiceOrdersDatasource';
 import { ServiceOrderDetail } from '../../../Domain/Model/ServiceOrderDetailModel';
+import { ServiceOrderHistoryPost } from '../../../Domain/Model/ServiceOrderHistoryPost';
+import { MasterData } from '../../../Domain/Model/MasterDataModel';
 
 export class RestServiceOrdersDatasourceImpl
   implements ServiceOrdersDatasource
@@ -37,8 +39,44 @@ export class RestServiceOrdersDatasourceImpl
   async fetchEmployeeOrderDetail(orderId: number): Promise<ServiceOrderDetail> {
     const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/orders/${orderId}`;
     return axios.get<ServiceOrderDetail>(url).then(({ data }) => {
-      console.log('fetchEmployeeOrderDetail - ', data.description);
       return data;
     });
   }
+
+  async postServiceOrderHistory(
+    serviceOrderHistoryPost: ServiceOrderHistoryPost,
+  ): Promise<number> {
+    console.log(
+      '🚀 ~ file: RestServiceOrdersDatasourceImpl.ts:48 ~ serviceOrderHistoryPost:',
+      serviceOrderHistoryPost,
+    );
+    //const url = `http://localhost:8090/api/tracking-so/execution-history`;
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/execution-history`;
+    return axios
+      .post<number>(url, serviceOrderHistoryPost)
+      .then(({ data }) => {
+        //console.log('postServiceOrderHistory - ', data);
+        return data;
+      })
+      .catch(err => {
+        console.log('postServiceOrderHistory err', JSON.stringify(err));
+        return -1;
+      });
+  }
+
+  async postServiceOrderHistoryAttachment(
+    historyId: number,
+    attachment: string,
+  ): Promise<void> {
+    //const url = `http://localhost:8090/api/tracking-so/execution-history/${historyId}/attachment`;
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/execution-history/${historyId}/attachment`;
+    return axios.post<void>(url, attachment).then(({ data }) => data);
+  }
+
+  async fetchMasterData(): Promise<MasterData> {
+    const url = `http://vps-3107443-x.dattaweb.com/api/tracking-so/master-data`;
+    return axios.get<MasterData>(url).then(({ data }) => data);
+  }
+
+  
 }

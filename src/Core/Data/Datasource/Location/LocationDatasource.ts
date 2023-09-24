@@ -4,6 +4,7 @@ export type SendLocationOptions = {
     username: string;
     firstName: string;
     lastName: string;
+    id: number;
   };
   location: {
     latitude: number;

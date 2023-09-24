@@ -1,13 +1,24 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Button } from '@rneui/base';
-import dayjs from 'dayjs';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import DatePicker from 'react-native-date-picker';
-import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
 import { makeStyles } from '@rneui/themed';
+import { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import {
+  SuccessDialogComponent
+} from '../../../Common/Components/SuccessDialogComponent';
+import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
+import { ServiceOrderHistoryPost } from '../../Domain/Model/ServiceOrderHistoryPost';
+import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
+import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
+import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
+import { MAIN_ROUTES } from '../Constants/RoutesConstants';
+import { Reason } from '../../Domain/Model/MasterDataModel';
 
 export type AssignedServiceOrderEditionModalParams = {
-  serviceOrder: ServiceOrderDetail;
+  route: any;
+  serviceOrder?: ServiceOrderDetail;
+  serviceOrdersRepository: ServiceOrdersRepository;
 };
 
 /**
@@ -15,142 +26,68 @@ export type AssignedServiceOrderEditionModalParams = {
  * @param {*} param0
  * @returns
  */
-export const AssignedServiceOrderEditionModal = ({ route }: any) => {
+export const AssignedServiceOrderEditionModal = ({
+  route,
+  serviceOrdersRepository,
+}: AssignedServiceOrderEditionModalParams) => {
   const styles = useStyles();
   const serviceOrder = route.params.serviceOrder as ServiceOrderDetail;
-  const { number, description, status, type, customer, destination } =
-    serviceOrder;
-  const { name: serviceType } = type;
-  const { firstName, lastName, phones: [phone] = ['-'] } = customer;
-  const { description: addressDescription } = destination.address;
-  const { description: statusDescription } = status;
-  const [cancelationReason, onChangeCancelationReason] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [historyPost, setHistoryPost] =
+    useState<ServiceOrderHistoryPost | null>(null);
 
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const [savingInfo, setSavingInfo] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [reasons, setReasons] = useState<Reason[]>([]);
+
+  const onInfoUpdated = (serviceOrderHistoryPost: ServiceOrderHistoryPost) => {
+    setHistoryPost(serviceOrderHistoryPost);
+  };
+
+  const onSaveHistoryPost = async () => {
+    if (!historyPost) return;
+    setSavingInfo(true);
+    setLoading(true);
+    await serviceOrdersRepository.addServiceOrderHistoryRecord(historyPost);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    serviceOrdersRepository.getMasterData().then((masterData) => {
+      console.log("🚀 ~ file: AssignedServiceOrderEditionModal.tsx:59 ~ serviceOrdersRepository.getMasterData ~ masterData:", masterData)
+      setReasons(masterData.reasons)
+    })
+  },[])
+
   return (
     <View style={styles.container}>
+      <SuccessDialogComponent
+        title="Actualizando información"
+        description="Su información fue actualizada correctamente!"
+        isLoading={loading}
+        isVisible={savingInfo}
+        doneButtonTitle="Aceptar"
+        doneButtonHandler={() => {
+          setSavingInfo(false);
+          navigation.navigate(MAIN_ROUTES.HOME);
+        }}></SuccessDialogComponent>
+
       <ScrollView>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Info. del Servicio
-            </Text>
-          </View>
-
-          <Text numberOfLines={2} style={styles.text}>
-            Orden de Servicio: <Text style={styles.black}>{number}</Text>
-          </Text>
-          <Text numberOfLines={2} style={styles.text}>
-            Tipo de Servicio: <Text style={styles.black}>{serviceType}</Text>
-          </Text>
-          <Text numberOfLines={2} style={styles.text}>
-            Estado: <Text style={styles.black}>{statusDescription}</Text>
-          </Text>
-          <Text numberOfLines={4} style={styles.text}>
-            Descripción: <Text style={styles.black}>{description}</Text>
-          </Text>
-        </View>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Info. del Solicitante
-            </Text>
-          </View>
-          <Text style={styles.text}>
-            Nombre y Apellido:{' '}
-            <Text style={styles.black}>{`${firstName} ${lastName}`}</Text>
-          </Text>
-          <Text style={styles.text} numberOfLines={1}>
-            Teléfono: <Text style={styles.black}>{phone}</Text>
-          </Text>
-        </View>
-        <View style={[styles.sectionContainer, styles.shadowProp]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Domicilio de Entrega
-            </Text>
-          </View>
-          <Text style={styles.text} numberOfLines={2}>
-            Calle: <Text style={styles.black}>{addressDescription} </Text>
-          </Text>
-        </View>
-        <View
-          style={[
-            styles.sectionContainer,
-            styles.shadowProp,
-            styles.lastSection,
-          ]}>
-          <View style={styles.sectionTitleContainer}>
-            <Text style={styles.sectionTitleContainer.sectionTitle}>
-              Confirmación
-            </Text>
-          </View>
-          <View>
-            <Text style={{ ...styles.text, marginBottom: 4 }}>
-              Observaciones
-            </Text>
-            <TextInput
-              autoCorrect={false}
-              style={{
-                ...styles.input,
-                paddingLeft: 12,
-                fontSize: 12.5,
-                justifyContent: 'center',
-                textAlignVertical: 'center',
-                fontWeight: 'bold',
-              }}
-              multiline={true}
-              placeholder="Ingrese observaciones"
-              onChangeText={onChangeCancelationReason}
-            />
-          </View>
-
-          <View>
-            <Text style={{ ...styles.text, marginBottom: 4 }}>
-              Fecha y hora de visita
-            </Text>
-            <Button
-              titleStyle={{
-                color: 'black',
-                width: '100%',
-                alignItems: 'flex-start',
-                textAlign: 'left',
-                fontSize: 12.5,
-                fontWeight: 'bold',
-              }}
-              buttonStyle={{
-                backgroundColor: 'white',
-                justifyContent: 'flex-start',
-                padding: 0,
-                margin: 0,
-              }}
-              containerStyle={styles.input}
-              title={dayjs.utc(date).format('DD/MM/YYYY HH:mm')}
-              onPress={() => setOpen(true)}
-            />
-            <DatePicker
-              modal
-              open={open}
-              date={date}
-              onConfirm={date => {
-                setOpen(false);
-                setDate(date);
-              }}
-              onCancel={() => {
-                setOpen(false);
-              }}
-            />
-          </View>
-        </View>
+        <OrderInfoCardComponent
+          serviceOrder={serviceOrder}></OrderInfoCardComponent>
+        <OrderFormCardComponent
+          serviceOrder={serviceOrder}
+          reasons={reasons}
+          onInfoUpdated={onInfoUpdated}></OrderFormCardComponent>
 
         <View style={styles.buttonsContainer}>
           <Button
             titleStyle={styles.titleButton}
             buttonStyle={styles.confirmButton}
-            title="Guardar Información"
-            onPress={() => console.log('onConfirm')}></Button>
+            title="GUARDAR INFORMACIÓN"
+            onPress={() => onSaveHistoryPost()}></Button>
         </View>
       </ScrollView>
     </View>
@@ -162,7 +99,6 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     alignItems: 'center',
     marginHorizontal: 10,
-    marginVertical: 20,
   },
   sectionContainer: {
     width: '100%',
@@ -172,12 +108,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 10,
   },
   buttonsContainer: {
-    marginVertical: 10,
+    marginHorizontal: 10,
+    marginBottom: 0,
     flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   titleButton: {
     fontSize: 12.5,
@@ -187,13 +121,25 @@ const useStyles = makeStyles(theme => ({
   cancelButton: {
     backgroundColor: theme.colors.background,
     borderRadius: 16,
-    height: 32,
   },
   confirmButton: {
     backgroundColor: theme.colors.primary,
     borderRadius: 16,
+    width: '100%',
+  },
+  titleSecondaryButton: {
+    fontSize: 12.5,
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+  },
+  secondaryButton: {
+    backgroundColor: theme.colors.white,
+    color: theme.colors.primary,
+    borderRadius: 16,
     height: 32,
-    width: '100%'
+    width: '100%',
+    borderColor: theme.colors.primary,
+    borderWidth: 1,
   },
   sectionTitleContainer: {
     paddingBottom: 4,

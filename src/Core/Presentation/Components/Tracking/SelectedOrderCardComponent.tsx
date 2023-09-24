@@ -3,6 +3,7 @@ import { Dimensions, Pressable, Text, View } from 'react-native';
 
 import { Button, Chip, Icon, makeStyles } from '@rneui/themed';
 import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
+import { getIconNameByPriority } from '../../Pipes/AssignedOrdersMarkerPipe';
 
 const { width } = Dimensions.get('window');
 
@@ -10,7 +11,7 @@ const OUTER_CARD_HEIGHT = 230;
 const OUTER_CARD_WIDTH = width;
 
 const INNER_CARD_HEIGHT = 220;
-const INNER_CARD_WIDTH = width * 0.8;
+const INNER_CARD_WIDTH = width * 0.6;
 
 type SelectedOrderCardComponentOptions = {
   serviceOrder: ServiceOrderItem;
@@ -26,12 +27,14 @@ const SelectedOrderCardComponent = ({
   onClose,
 }: SelectedOrderCardComponentOptions) => {
   const styles = useStyles();
-  const { number, description, status, destination, type } = serviceOrder;
+  const { number, description, status, destination, type, priority } = serviceOrder;
   const { name: statusDescription } = status;
   const { address } = destination;
   const { description: addressDescription } = address;
 
   const { description: serviceType } = type;
+
+  const { iconName, iconColor, iconText } = getIconNameByPriority(priority);
   return (
     <View style={styles.outerCard}>
       <View style={styles.innerCard}>
@@ -63,30 +66,34 @@ const SelectedOrderCardComponent = ({
                 containerStyle={styles.containerStyle}
               />
             </View>
-            {/* <Text numberOfLines={2} style={styles.text}>
-              Solicitante:{' '}
-              <Text style={styles.black}>{`${firstName} ${lastName}`}</Text>
-            </Text> */}
+
+            <View>
+              <Chip
+                title={iconText}
+                icon={{
+                  name: iconName,
+                  type: 'material-community',
+                  size: 15,
+                  color: 'white',
+                }}
+                iconRight
+                titleStyle={styles.titleStyle}
+                buttonStyle={{
+                  ...styles.buttonStyle,
+                  backgroundColor: iconColor,
+                }}
+                containerStyle={styles.containerStyle}
+              />
+            </View>
             <Text numberOfLines={2} style={styles.text}>
               Tipo de Servicio: <Text style={styles.black}>{serviceType}</Text>
             </Text>
-
-            {/* <Text style={styles.text} numberOfLines={1}>
-              Teléfono: <Text style={styles.black}>{phone}</Text>
-            </Text>*/}
             <Text style={styles.text} numberOfLines={2}>
               Dirección: <Text style={styles.black}>{addressDescription}</Text>
             </Text>
             <Text numberOfLines={4} style={styles.text}>
               Descripción: <Text style={styles.black}>{description}</Text>
             </Text>
-            <View style={styles.buttonsContainer}>
-              <Button
-                titleStyle={styles.titleButton}
-                buttonStyle={styles.confirmButton}
-                title="Adjuntar Información"
-                onPress={() => onConfirm()}></Button>
-            </View>
           </View>
         </View>
       </View>
@@ -138,7 +145,7 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     width: '100%',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     marginTop: 4,
   },
   titleStyle: {
@@ -179,12 +186,12 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.colors.background,
     color: theme.colors.primary,
     borderRadius: 16,
-    height: 32,
+    //height: 32,
   },
   confirmButton: {
     backgroundColor: theme.colors.primary,
     borderRadius: 16,
-    height: 32,
+    // height: 32,
   },
 }));
 
