@@ -4,6 +4,7 @@ import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
 import { LatLng } from 'react-native-maps';
 import { IMarker } from '../../../../Common/Interfaces/IMarker';
 import { useState } from 'react';
+import { makeStyles } from '@rneui/themed';
 
 export type TrackingOrdersRouteComponentProps = {
     coordinates: LatLng[];
@@ -22,6 +23,7 @@ const getMapsInfo = (coordinates: LatLng[]) => {
 export function TrackingOrdersRouteComponent({
     coordinates,
 }: TrackingOrdersRouteComponentProps) {
+  const styles = useStyles();
   const mapsInfo = getMapsInfo(coordinates);
   const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
 
@@ -31,8 +33,16 @@ export function TrackingOrdersRouteComponent({
       destination={mapsInfo.destination}
       waypoints={mapsInfo.waypoints}
       apikey={GOOGLE_MAPS_API_KEY}
-      strokeColor={'#5c881a'}
-      strokeWidth={4}
+      mode='DRIVING'
+      strokeColor={styles.stroke.color}
+      strokeWidth={styles.stroke.width}
     />
   );
 }
+
+const useStyles = makeStyles(theme => ({
+  stroke: {
+    color: theme.colors.primary,
+    width: 4
+  },
+}));
