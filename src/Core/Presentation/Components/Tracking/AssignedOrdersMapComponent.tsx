@@ -83,7 +83,7 @@ export function AssignedOrdersMapComponent({
                 height: 12,
                 overflow: 'visible',
               }}>
-              1
+              {index + 1}
             </Text>
           </View>
         )}

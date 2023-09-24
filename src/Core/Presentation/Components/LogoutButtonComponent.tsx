@@ -1,4 +1,4 @@
-import { Button } from 'react-native';
+import { Button } from '@rneui/themed';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
 import { useAuthModelController } from '../Hook/useAuthModelController';
 
