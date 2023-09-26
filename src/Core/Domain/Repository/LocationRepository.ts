@@ -6,4 +6,5 @@ export type WatchPositionOptions = {
 
 export interface LocationRepository {
   watchPosition(options: WatchPositionOptions): Promise<void>;
+  registerDeviceForMessaging(): Promise<void>;
 }

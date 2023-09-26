@@ -1,5 +1,5 @@
 import { Icon, makeStyles } from '@rneui/themed';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { IMarker } from '../../../../Common/Interfaces/IMarker';
 
@@ -32,7 +32,7 @@ export function AssignedOrdersMapComponent({
 }: AssignedOrdersMapComponentProps) {
   const styles = useStyles();
   return assignedOrdersMarkers?.map(
-    ({ key, iconName, iconColor, ...markerProps }) => (
+    ({ key, iconName, iconColor, ...markerProps }, index) => (
       <Marker key={key} {...markerProps} onPress={() => onOrderSelected(key)}>
         {/* <Icon
             name={iconName}
@@ -40,19 +40,52 @@ export function AssignedOrdersMapComponent({
             size={24}
             type="material-community"></Icon> */}
         {key != selectedOrderKey ? (
-          <Icon
-            name={iconName}
-            color={iconColor}
-            size={24}
-            type="material-community"></Icon>
-        ) : (
-          <CircleBorder size={32} borderWidth={3} borderColor={iconColor}>
+          <View>
             <Icon
+              style={{
+                marginTop: 12,
+              }}
               name={iconName}
               color={iconColor}
               size={24}
               type="material-community"></Icon>
-          </CircleBorder>
+            <Text
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                fontSize: 12,
+                alignSelf: 'center',
+              }}>
+              {index + 1}
+            </Text>
+          </View>
+        ) : (
+          <View>
+            <CircleBorder
+              style={{
+                marginTop: 12,
+              }}
+              size={32}
+              borderWidth={3}
+              borderColor={iconColor}>
+              <Icon
+                name={iconName}
+                color={iconColor}
+                size={24}
+                type="material-community"></Icon>
+            </CircleBorder>
+            <Text
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                fontSize: 12,
+                alignSelf: 'center',
+                height: 12,
+                overflow: 'visible',
+              }}>
+              {index + 1}
+            </Text>
+          </View>
         )}
       </Marker>
     ),

@@ -1,6 +1,8 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { HomeView } from './HomeView';
 import { OrdersMapView } from './OrdersMapView';
+import { Icon } from '@rneui/themed';
+import { useEffect } from 'react';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -9,15 +11,16 @@ export function MyTabsView({
   locationRepository,
   serviceOrdersRepository,
 }: any) {
+  useEffect(() => {
+    locationRepository.registerDeviceForMessaging();
+  }, []);
   return (
     <Tab.Navigator
       barStyle={{ backgroundColor: '#C9ADA7' }}
       inactiveColor="#4A4E69">
       <Tab.Screen
         name="Home"
-        listeners={{tabPress:() => {
-          
-        }}}
+        options={{ tabBarIcon: () => <Icon name={'home'} /> }}
         children={props => (
           <HomeView
             {...props}
@@ -28,6 +31,7 @@ export function MyTabsView({
       />
       <Tab.Screen
         name="Maps"
+        options={{ tabBarIcon: () => <Icon name={'route'} /> }}
         children={() => (
           <OrdersMapView
             locationRepository={locationRepository}

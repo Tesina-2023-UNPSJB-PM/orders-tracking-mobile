@@ -14,4 +14,5 @@ export type SendLocationOptions = {
 
 export interface LocationDatasource {
   sendLocation(options: SendLocationOptions): Promise<void>;
+  registerDeviceForMessaging(employeeId: string): Promise<void>;
 }

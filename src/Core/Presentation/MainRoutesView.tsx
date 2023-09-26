@@ -58,6 +58,7 @@ export function MainRoutesView() {
           options={({ navigation }) => ({
             headerStyle: { backgroundColor: theme.colors.background },
             headerBackVisible: false,
+            headerTitle: '',
             headerLeft: () => AvatarButtonHeader(authRepository),
             headerRight: () => LogoutButtonHeader(navigation, authRepository),
           })}>

@@ -1,5 +1,5 @@
 import { Button } from '@rneui/base';
-import { Card, CheckBox, makeStyles } from '@rneui/themed';
+import { Card, CheckBox, Icon, makeStyles } from '@rneui/themed';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
@@ -80,6 +80,24 @@ export function OrderFormCardComponent({
         }}
         title="Finalizar"
         iconRight={true}
+        checkedIcon={
+          <Icon
+            name="radio-button-checked"
+            type="material"
+            color={styles.checkedIcon.color}
+            size={25}
+            iconStyle={{ marginRight: 10 }}
+          />
+        }
+        uncheckedIcon={
+          <Icon
+            name="radio-button-unchecked"
+            type="material"
+            color="grey"
+            size={25}
+            iconStyle={{ marginRight: 10 }}
+          />
+        }
       />
 
       <View>
@@ -217,4 +235,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     // justifyContent: 'center',
   },
+  checkedIcon: {
+    color: theme.colors.primary
+  }
 }));
