@@ -16,7 +16,17 @@ export class RNLocationRepositoryImpl implements LocationRepository {
   constructor(
     private locationDatasource: LocationDatasource,
     private authDatasource: AuthDataSource,
-  ) {
+  ) {}
+
+  public async registerDeviceForMessaging() {
+    const currentUser = this.authDatasource.getCurrentUser();
+    if (!currentUser) return;
+    const { id } = currentUser.userProfile;
+    console.log(
+      '🚀 ~ file: RNLocationRepositoryImpl.ts:25 ~ RNLocationRepositoryImpl ~ registerDeviceForMessaging ~ id:',
+      id,
+    );
+    await this.locationDatasource.registerDeviceForMessaging(`${id}`);
   }
 
   public removeSubscription(): void {
