@@ -16,7 +16,8 @@ export class RNLocationRepositoryImpl implements LocationRepository {
   constructor(
     private locationDatasource: LocationDatasource,
     private authDatasource: AuthDataSource,
-  ) {}
+  ) {
+  }
 
   public removeSubscription(): void {
     this.locationSubscription?.();
