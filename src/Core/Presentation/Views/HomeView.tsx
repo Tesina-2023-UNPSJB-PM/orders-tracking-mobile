@@ -54,7 +54,7 @@ export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.card}>
           <CurrentStatusCardComponent
@@ -76,6 +76,9 @@ export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
 }
 
 const useStyles = makeStyles(theme => ({
+  scrollContainer: {
+    backgroundColor: theme.colors.background,
+  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
