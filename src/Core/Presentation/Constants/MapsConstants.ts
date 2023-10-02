@@ -11,31 +11,12 @@ export const APP_INITIAL_REGION = {
   longitudeDelta: 0.0421,
 };
 
-export const APP_MAP_STYLE:MapStyleElement[] = [
+export const APP_MAP_STYLE: MapStyleElement[] = [
   {
+    featureType: 'poi',
     elementType: 'labels',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
+    stylers: [{ visibility: 'off' }],
   },
-  {
-    featureType: 'administrative.land_parcel',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.neighborhood',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  }
 ];
 
 export const APP_LOCATION_PERMISSIONS =

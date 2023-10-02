@@ -19,8 +19,8 @@ type AuthViewProps = {
 
 export function AuthView({ navigation, authRepository }: AuthViewProps) {
   const { handleClickOnLogin } = useAuthModelController(authRepository);
-  const [username, setUsername] = useState('dfuseneco');
-  const [password, setPassword] = useState('12345678');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <View style={styles.container}>
