@@ -1,6 +1,6 @@
 import { makeStyles } from '@rneui/themed';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { RecentActivityListItem } from '../../Domain/Model/RecentActivityListItemModel';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
 import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
@@ -8,7 +8,8 @@ import { CurrentStatusCardComponent } from '../Components/CurrentStatusCardCompo
 import { RecentOrdersListComponent } from '../Components/RecentOrdersListComponent';
 import { useServiceOrderItemModelController } from '../Hook/useServiceOrderItemModelController';
 import { RecentActivityListItemPipe } from '../Pipes/RecentActivityListItemPipe';
-import { useNavigationState } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type HomeViewProps = {
   authRepository: AuthRepository;
@@ -18,9 +19,10 @@ type HomeViewProps = {
 export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
   const styles = useStyles();
 
-  const { getEmployeeOrdersSummary } = useServiceOrderItemModelController(
-    serviceOrdersRepository,
-  );
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const { getEmployeeOrdersSummary, getEmployeeOrderDetail } =
+    useServiceOrderItemModelController(serviceOrdersRepository);
 
   const [assignedPendingOrders, setAssignedPendingOrders] = useState<number>();
   const [recentActivityListItem, setRecentActivityListItem] = useState<
@@ -29,11 +31,8 @@ export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
 
   const index = useNavigationState(state => state.index);
 
-  const [refresh, setRefresh] = useState(true);
-
   useEffect(() => {
     if (index !== 0) return;
-    console.log("🚀 ~ file: HomeView.tsx:36 ~ useEffect ~ index:", index)
 
     getEmployeeOrdersSummary().then(
       ({ recentActivity, assignedServiceOrders }) => {
@@ -43,26 +42,43 @@ export function HomeView({ serviceOrdersRepository }: HomeViewProps) {
     );
   }, [index]);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <CurrentStatusCardComponent
-          assignedPendingOrders={
-            assignedPendingOrders
-          }></CurrentStatusCardComponent>
-      </View>
+  const goToAssignedOrderDetailModal = async (orderId?: number) => {
 
-      <View style={styles.list}>
-        <RecentOrdersListComponent
-          recentActivityListItems={
-            recentActivityListItem
-          }></RecentOrdersListComponent>
+    if (!orderId) return;
+
+    const serviceOrder = await getEmployeeOrderDetail(orderId);
+
+    navigation.navigate('ServiceOrderInfo', {
+      serviceOrder,
+    });
+  };
+
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <CurrentStatusCardComponent
+            assignedPendingOrders={
+              assignedPendingOrders
+            }></CurrentStatusCardComponent>
+        </View>
+
+        <View style={styles.list}>
+          <RecentOrdersListComponent
+            recentActivityListItems={recentActivityListItem}
+            onSelectOrder={(orderId: number) =>
+              goToAssignedOrderDetailModal(orderId)
+            }></RecentOrdersListComponent>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const useStyles = makeStyles(theme => ({
+  scrollContainer: {
+    backgroundColor: theme.colors.background,
+  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,

@@ -49,8 +49,6 @@ export function OrdersMapView({
 
   useEffect(() => {
     if (index !== 1) return;
-    console.log('🚀 ~ file: HomeView.tsx:36 ~ useEffect ~ index:', index);
-    console.log('🚀 ~ file: OrdersMapView.tsx:35 ~ index:', index);
 
     serviceOrdersRepository
       .getEmployeeOrders()

@@ -41,9 +41,9 @@ export class PubNubLocationDatasourceImpl implements LocationDatasource {
     messaging().setBackgroundMessageHandler(onMessageReceived);
     messaging().onMessage(onMessageReceived);
 
-    notifee.onBackgroundEvent(async event => notificationActionHandler(event));
+    notifee.onBackgroundEvent(event => notificationActionHandler(event));
 
-    notifee.onForegroundEvent(async event => notificationActionHandler(event));
+    notifee.onForegroundEvent(event => notificationActionHandler(event));
   }
 }
 

@@ -1,22 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Button } from '@rneui/base';
 import { makeStyles } from '@rneui/themed';
-import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { SuccessDialogComponent } from '../../../Common/Components/SuccessDialogComponent';
 import { ServiceOrderDetail } from '../../Domain/Model/ServiceOrderDetailModel';
-import { ServiceOrderHistoryPost } from '../../Domain/Model/ServiceOrderHistoryPost';
 import { ServiceOrdersRepository } from '../../Domain/Repository/ServiceOrdersRepository';
-import { OrderFormCardComponent } from '../Components/AssignedOrderEdition/OrderFormCard';
 import { OrderInfoCardComponent } from '../Components/AssignedOrderEdition/OrderInfoCard';
-import { MAIN_ROUTES } from '../Constants/RoutesConstants';
-import { Reason } from '../../Domain/Model/MasterDataModel';
 
-export type AssignedServiceOrderEditionModalParams = {
+export type ServiceOrderInfoModalParams = {
   route: any;
-  serviceOrder?: ServiceOrderDetail;
-  serviceOrdersRepository: ServiceOrdersRepository;
 };
 
 /**
@@ -24,68 +15,19 @@ export type AssignedServiceOrderEditionModalParams = {
  * @param {*} param0
  * @returns
  */
-export const AssignedServiceOrderEditionModal = ({
+export const ServiceOrderInfoModal = ({
   route,
-  serviceOrdersRepository,
-}: AssignedServiceOrderEditionModalParams) => {
+}: ServiceOrderInfoModalParams) => {
   const styles = useStyles();
   const serviceOrder = route.params.serviceOrder as ServiceOrderDetail;
-  const [historyPost, setHistoryPost] =
-    useState<ServiceOrderHistoryPost | null>(null);
 
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const [savingInfo, setSavingInfo] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const [reasons, setReasons] = useState<Reason[]>([]);
-
-  const onInfoUpdated = (serviceOrderHistoryPost: ServiceOrderHistoryPost) => {
-    setHistoryPost(serviceOrderHistoryPost);
-  };
-
-  const onSaveHistoryPost = async () => {
-    if (!historyPost) return;
-    setSavingInfo(true);
-    setLoading(true);
-    await serviceOrdersRepository.addServiceOrderHistoryRecord(historyPost);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    serviceOrdersRepository
-      .getMasterData()
-      .then(masterData => setReasons(masterData.reasons));
-  }, []);
-
   return (
     <View style={styles.container}>
-      <SuccessDialogComponent
-        title="Actualizando información"
-        description="Su información fue actualizada correctamente!"
-        isLoading={loading}
-        isVisible={savingInfo}
-        doneButtonTitle="Aceptar"
-        doneButtonHandler={() => {
-          setSavingInfo(false);
-          navigation.navigate(MAIN_ROUTES.HOME);
-        }}></SuccessDialogComponent>
-
       <ScrollView>
         <OrderInfoCardComponent
           serviceOrder={serviceOrder}></OrderInfoCardComponent>
-        <OrderFormCardComponent
-          serviceOrder={serviceOrder}
-          reasons={reasons}
-          onInfoUpdated={onInfoUpdated}></OrderFormCardComponent>
-
-        <View style={styles.buttonsContainer}>
-          <Button
-            titleStyle={styles.titleButton}
-            buttonStyle={styles.confirmButton}
-            title="GUARDAR INFORMACIÓN"
-            onPress={() => onSaveHistoryPost()}></Button>
-        </View>
       </ScrollView>
     </View>
   );

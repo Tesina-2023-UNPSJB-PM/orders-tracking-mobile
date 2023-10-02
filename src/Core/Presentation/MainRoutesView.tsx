@@ -17,6 +17,7 @@ import { MAIN_ROUTES } from './Constants/RoutesConstants';
 import { AuthView } from './Views/AuthView';
 import { MyTabsView } from './Views/MyTabsView';
 import { AssignedServiceOrderEditionModal } from './Modals/AssignedServiceOrderEditionModal';
+import { ServiceOrderInfoModal } from './Modals/ServiceOrderInfoModal';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -85,6 +86,16 @@ export function MainRoutesView() {
                 serviceOrdersRepository={serviceOrdersRepository}
               />
             )}
+          </Stack.Screen>
+
+          <Stack.Screen
+            name={MAIN_ROUTES.SERVICE_ORDER_INFO}
+            options={{
+              title: 'Detalle de Órden',
+              headerStyle: { backgroundColor: theme.colors.background },
+              contentStyle: { backgroundColor: theme.colors.background },
+            }}>
+            {props => <ServiceOrderInfoModal {...props} />}
           </Stack.Screen>
         </Stack.Group>
       </Stack.Navigator>

@@ -3,4 +3,5 @@ export const MAIN_ROUTES = {
   HOME: 'Home',
   TABS: 'Tabs',
   ASSIGNED_SERVICE_ORDER_EDITION: 'AssignedServiceOrderEdition',
+  SERVICE_ORDER_INFO: 'ServiceOrderInfo',
 };

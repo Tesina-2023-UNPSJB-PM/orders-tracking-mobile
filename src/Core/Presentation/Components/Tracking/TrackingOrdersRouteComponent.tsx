@@ -1,17 +1,13 @@
-import Config from 'react-native-config';
-import MapViewDirections from 'react-native-maps-directions';
-import { ServiceOrderItem } from '../../../Domain/Model/ServiceOrderItemModel';
-import { LatLng } from 'react-native-maps';
-import { IMarker } from '../../../../Common/Interfaces/IMarker';
-import { useState } from 'react';
 import { makeStyles } from '@rneui/themed';
+import Config from 'react-native-config';
+import { LatLng } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 export type TrackingOrdersRouteComponentProps = {
     coordinates: LatLng[];
 };
 
 const getMapsInfo = (coordinates: LatLng[]) => {
-  //const coordinates: LatLng[] = coordinates;
   const _length = coordinates.length;
   const origin: LatLng = coordinates[0];
   const destination: LatLng = coordinates[_length - 1];

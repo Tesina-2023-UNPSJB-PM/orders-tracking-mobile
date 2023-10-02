@@ -34,7 +34,7 @@ export function OrderFormCardComponent({
 
   const [historyPost, setHistoryPost] = useState<ServiceOrderHistoryPost>({
     assignedEmployeeId,
-    newStatus,
+    status: newStatus,
     serviceOrderId,
     attachments: null,
     executionId: null,
@@ -48,10 +48,10 @@ export function OrderFormCardComponent({
   };
 
   const onChangeStatus = () => {
-    const _newStatus = !finish;
-    const newStatus = _newStatus ? 'DONE' : 'PENDING';
-    setFinish(_newStatus);
-    setHistoryPost({ ...historyPost, newStatus });
+    const newStatus = !finish;
+    const status = newStatus ? 'DONE' : 'PENDING';
+    setFinish(newStatus);
+    setHistoryPost({ ...historyPost, status });
     onInfoUpdated(historyPost);
   };
 
@@ -236,6 +236,6 @@ const useStyles = makeStyles(theme => ({
     // justifyContent: 'center',
   },
   checkedIcon: {
-    color: theme.colors.primary
-  }
+    color: theme.colors.primary,
+  },
 }));
