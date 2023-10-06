@@ -12,15 +12,15 @@ export const APP_DEFAULT_LOCATION_PERMISSIONS_CONFIG: RequestPermissionOptions =
   };
 
 export const APP_DEFAULT_LOCATION_CONFIG: ConfigureOptions = {
-  distanceFilter: 10, // Meters
+  distanceFilter: 0, // Meters
   desiredAccuracy: {
     ios: 'nearestTenMeters',
     android: 'highAccuracy',
   },
   // Android only
   androidProvider: 'auto',
-  interval: 5000, // Milliseconds
-  fastestInterval: 10000, // Milliseconds
+  interval: 2500, // Milliseconds
+  fastestInterval: 1000, // Milliseconds
   maxWaitTime: 5000, // Milliseconds
   // iOS Only
   activityType: 'other',
