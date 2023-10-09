@@ -26,6 +26,7 @@ const theme = createTheme({
     secondary: '#22223B',
     background: '#F2E9E4',
   },
+  mode: 'light',
 });
 
 function App(): React.JSX.Element {
