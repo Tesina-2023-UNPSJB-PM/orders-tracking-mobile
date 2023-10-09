@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { AuthRepository } from '../../Domain/Repository/AuthRepository';
 import { useAuthModelController } from '../Hook/useAuthModelController';
+import { AxiosInterceptor } from '../../Data/Repository/AxiosInterceptor';
 
 type AuthViewProps = {
   route: any;
@@ -21,6 +22,9 @@ export function AuthView({ navigation, authRepository }: AuthViewProps) {
   const { handleClickOnLogin } = useAuthModelController(authRepository);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const interceptor = new AxiosInterceptor(navigation, authRepository);
+
+  interceptor.initialize();
 
   return (
     <View style={styles.container}>

@@ -5,15 +5,16 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ThemeProvider, createTheme } from '@rneui/themed';
+import { Dialog, ThemeProvider, createTheme } from '@rneui/themed';
 import { Provider } from 'react-redux';
 import store from './Core/Data/Redux/Store';
 import { MainRoutesView } from './Core/Presentation/MainRoutesView';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import axios from 'axios';
 
 const theme = createTheme({
   lightColors: {
@@ -31,9 +32,29 @@ const theme = createTheme({
 
 function App(): React.JSX.Element {
   dayjs.extend(utc);
+  const [spinner, setSpinner] = useState(false);
+
+  axios.interceptors.request.use(function (config) {
+    setSpinner(true);
+    return config;
+  });
+
+  axios.interceptors.response.use(
+    function (response) {
+      setSpinner(false);
+      return response;
+    },
+    function (error) {
+      setSpinner(false);
+      return Promise.reject(error);
+    },
+  );
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
+        <Dialog isVisible={spinner}>
+          <Dialog.Loading />
+        </Dialog>
         <MainRoutesView></MainRoutesView>
       </Provider>
     </ThemeProvider>

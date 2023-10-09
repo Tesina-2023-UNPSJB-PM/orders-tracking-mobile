@@ -18,6 +18,7 @@ import { AuthView } from './Views/AuthView';
 import { MyTabsView } from './Views/MyTabsView';
 import { AssignedServiceOrderEditionModal } from './Modals/AssignedServiceOrderEditionModal';
 import { ServiceOrderInfoModal } from './Modals/ServiceOrderInfoModal';
+import { AxiosInterceptor } from '../Data/Repository/AxiosInterceptor';
 
 const LogoutButtonHeader = (
   navigation: NativeStackNavigationProp<any, 'Logout'>,
@@ -35,6 +36,7 @@ const AvatarButtonHeader = (authRepository: AuthRepository) => (
 
 export function MainRoutesView() {
   const Stack = createNativeStackNavigator();
+  
   const dataSource = new RestAuthDatasourceImpl();
   const serviceOrdersDatasource = new RestServiceOrdersDatasourceImpl();
   const authRepository = new AuthRepositoryImpl(dataSource);
@@ -48,6 +50,7 @@ export function MainRoutesView() {
     dataSource,
   );
   const { theme } = useTheme();
+  //interceptor.
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={MAIN_ROUTES.AUTH}>
