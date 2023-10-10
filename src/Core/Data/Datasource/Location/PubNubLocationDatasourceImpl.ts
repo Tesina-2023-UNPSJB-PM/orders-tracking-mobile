@@ -1,7 +1,4 @@
-import notifee, {
-  EventType,
-  Notification
-} from '@notifee/react-native';
+import notifee, { EventType, Notification } from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import Pubnub from 'pubnub';
 import Config from 'react-native-config';
@@ -28,10 +25,10 @@ export class PubNubLocationDatasourceImpl implements LocationDatasource {
     );
   }
 
-  async registerDeviceForMessaging(employeeId: string) {
+  async registerDeviceForMessaging(employeeId: string, handler: () => void) {
     await messaging().registerDeviceForRemoteMessages();
     const token = await messaging().getToken();
-
+    this.pubNubClientInstance.unsubscribeAll();
     this.pubNubClientInstance.push.addChannels({
       channels: ['notifications', `EMPLOYEE_${employeeId}`],
       device: token,
@@ -41,13 +38,21 @@ export class PubNubLocationDatasourceImpl implements LocationDatasource {
     messaging().setBackgroundMessageHandler(onMessageReceived);
     messaging().onMessage(onMessageReceived);
 
-    notifee.onBackgroundEvent(event => notificationActionHandler(event));
+    notifee.onBackgroundEvent(event =>
+      notificationActionHandler(event, handler),
+    );
 
-    notifee.onForegroundEvent(event => notificationActionHandler(event));
+    notifee.onForegroundEvent(event =>
+      notificationActionHandler(event, handler),
+    );
   }
 }
 
 const onMessageReceived = async (message: any) => {
+  console.log(
+    '🚀 ~ file: PubNubLocationDatasourceImpl.ts:52 ~ onMessageReceived ~ message:',
+    message,
+  );
   notifee.createChannel({
     id: 'default',
     name: 'Default Channel',
@@ -65,13 +70,17 @@ const onMessageReceived = async (message: any) => {
   await notifee.displayNotification(notification);
 };
 
-const notificationActionHandler = async ({ type, detail }: any) => {
-  const { notification, pressAction } = detail;
+const notificationActionHandler = async (
+  { type, detail }: any,
+  handler: () => void,
+) => {
+  const { notification } = detail;
 
   if (type === EventType.PRESS) {
     eventEmitter.emit('notificationReceived', notification);
     const id = notification?.id;
     if (!id) return;
     await notifee.cancelNotification(id);
+    handler?.();
   }
 };

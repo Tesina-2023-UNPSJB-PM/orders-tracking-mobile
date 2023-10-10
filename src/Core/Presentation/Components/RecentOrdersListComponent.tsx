@@ -35,7 +35,7 @@ export function RecentOrdersListComponent({
             ),
           )
         ) : (
-          <Text>Todavía tienes actividad registrada!</Text>
+          <Text>Todavía no tienes actividad registrada!</Text>
         )}
       </View>
     </Card>

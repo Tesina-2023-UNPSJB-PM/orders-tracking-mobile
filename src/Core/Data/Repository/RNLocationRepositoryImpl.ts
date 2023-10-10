@@ -18,11 +18,11 @@ export class RNLocationRepositoryImpl implements LocationRepository {
     private authDatasource: AuthDataSource,
   ) {}
 
-  public async registerDeviceForMessaging() {
+  public async registerDeviceForMessaging(handler: () => void) {
     const currentUser = this.authDatasource.getCurrentUser();
     if (!currentUser) return;
     const { id } = currentUser.userProfile;
-    await this.locationDatasource.registerDeviceForMessaging(`${id}`);
+    await this.locationDatasource.registerDeviceForMessaging(`${id}`, handler);
   }
 
   public removeSubscription(): void {

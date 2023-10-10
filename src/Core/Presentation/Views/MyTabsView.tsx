@@ -3,6 +3,9 @@ import { HomeView } from './HomeView';
 import { OrdersMapView } from './OrdersMapView';
 import { Icon } from '@rneui/themed';
 import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MAIN_ROUTES } from '../Constants/RoutesConstants';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -11,9 +14,14 @@ export function MyTabsView({
   locationRepository,
   serviceOrdersRepository,
 }: any) {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   useEffect(() => {
-    locationRepository.registerDeviceForMessaging();
-  }, []);
+    locationRepository.registerDeviceForMessaging(() => {
+      authRepository.getCurrentUser()
+        ? navigation.navigate(MAIN_ROUTES.HOME)
+        : navigation.navigate(MAIN_ROUTES.AUTH);
+    });
+  });
   return (
     <Tab.Navigator
       barStyle={{ backgroundColor: '#C9ADA7' }}

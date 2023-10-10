@@ -56,7 +56,7 @@ export const AssignedServiceOrderEditionModal = ({
     serviceOrdersRepository
       .getMasterData()
       .then(masterData => setReasons(masterData.reasons));
-  }, []);
+  });
 
   return (
     <View style={styles.container}>
