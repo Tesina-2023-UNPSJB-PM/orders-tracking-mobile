@@ -8,4 +8,5 @@ export interface IMarker {
   };
   iconName: string;
   iconColor: string;
+  iconSrc: any;
 }

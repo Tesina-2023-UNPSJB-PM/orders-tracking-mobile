@@ -1,5 +1,6 @@
-import { Icon, makeStyles } from '@rneui/themed';
-import { Text, View } from 'react-native';
+/* eslint-disable react/react-in-jsx-scope */
+import { makeStyles } from '@rneui/themed';
+import { Image, Text, View } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { IMarker } from '../../../../Common/Interfaces/IMarker';
 
@@ -32,59 +33,33 @@ export function AssignedOrdersMapComponent({
 }: AssignedOrdersMapComponentProps) {
   const styles = useStyles();
   return assignedOrdersMarkers?.map(
-    ({ key, iconName, iconColor, ...markerProps }, index) => (
+    ({ key, iconColor, iconSrc, ...markerProps }, index) => (
       <Marker key={key} {...markerProps} onPress={() => onOrderSelected(key)}>
-        {/* <Icon
-            name={iconName}
-            color={iconColor}
-            size={24}
-            type="material-community"></Icon> */}
         {key != selectedOrderKey ? (
           <View>
-            <Icon
-              style={{
-                marginTop: 12,
+            <Image
+              source={{
+                uri: iconSrc,
               }}
-              name={iconName}
-              color={iconColor}
-              size={24}
-              type="material-community"></Icon>
-            <Text
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                fontSize: 12,
-                alignSelf: 'center',
-              }}>
-              {index + 1}
-            </Text>
+              style={styles.imageStyle}
+            />
+            <Text style={styles.textStyle}>{index + 1}</Text>
           </View>
         ) : (
           <View>
             <CircleBorder
-              style={{
-                marginTop: 12,
-              }}
+              style={styles.circleBorderStyle}
               size={32}
               borderWidth={3}
               borderColor={iconColor}>
-              <Icon
-                name={iconName}
-                color={iconColor}
-                size={24}
-                type="material-community"></Icon>
+              <Image
+                source={{
+                  uri: iconSrc,
+                }}
+                style={styles.imageStyle}
+              />
             </CircleBorder>
-            <Text
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                fontSize: 12,
-                alignSelf: 'center',
-                height: 12,
-                overflow: 'visible',
-              }}>
-              {index + 1}
-            </Text>
+            <Text style={styles.circleTextStyle}>{index + 1}</Text>
           </View>
         )}
       </Marker>
@@ -97,5 +72,23 @@ const useStyles = makeStyles(theme => ({
     size: 28,
     borderWith: 3,
     borderColor: theme.colors.primary,
+  },
+  imageStyle: { width: 24, height: 24 },
+  circleTextStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    fontSize: 12,
+    alignSelf: 'center',
+    height: 12,
+    overflow: 'visible',
+  },
+  textStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    fontSize: 12,
+    alignSelf: 'center',
+  },
+  circleBorderStyle: {
+    marginTop: 12,
   },
 }));

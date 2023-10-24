@@ -19,9 +19,9 @@ export const APP_DEFAULT_LOCATION_CONFIG: ConfigureOptions = {
   },
   // Android only
   androidProvider: 'auto',
-  interval: 2500, // Milliseconds
+  interval: 1000, // Milliseconds
   fastestInterval: 1000, // Milliseconds
-  maxWaitTime: 5000, // Milliseconds
+  maxWaitTime: 1000, // Milliseconds
   // iOS Only
   activityType: 'other',
   allowsBackgroundLocationUpdates: true,

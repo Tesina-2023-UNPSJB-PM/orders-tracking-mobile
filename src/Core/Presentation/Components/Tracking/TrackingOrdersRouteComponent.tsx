@@ -4,7 +4,7 @@ import { LatLng } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
 export type TrackingOrdersRouteComponentProps = {
-    coordinates: LatLng[];
+  coordinates: LatLng[];
 };
 
 const getMapsInfo = (coordinates: LatLng[]) => {
@@ -17,28 +17,30 @@ const getMapsInfo = (coordinates: LatLng[]) => {
 };
 
 export function TrackingOrdersRouteComponent({
-    coordinates,
+  coordinates,
 }: TrackingOrdersRouteComponentProps) {
   const styles = useStyles();
   const mapsInfo = getMapsInfo(coordinates);
   const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
 
   return (
-    <MapViewDirections
-      origin={mapsInfo.origin}
-      destination={mapsInfo.destination}
-      waypoints={mapsInfo.waypoints}
-      apikey={GOOGLE_MAPS_API_KEY}
-      mode='DRIVING'
-      strokeColor={styles.stroke.color}
-      strokeWidth={styles.stroke.width}
-    />
+    coordinates.length > 1 && (
+      <MapViewDirections
+        origin={mapsInfo.origin}
+        destination={mapsInfo.destination}
+        waypoints={mapsInfo.waypoints}
+        apikey={GOOGLE_MAPS_API_KEY}
+        mode="DRIVING"
+        strokeColor={styles.stroke.color}
+        strokeWidth={styles.stroke.width}
+      />
+    )
   );
 }
 
 const useStyles = makeStyles(theme => ({
   stroke: {
     color: theme.colors.primary,
-    width: 4
+    width: 4,
   },
 }));

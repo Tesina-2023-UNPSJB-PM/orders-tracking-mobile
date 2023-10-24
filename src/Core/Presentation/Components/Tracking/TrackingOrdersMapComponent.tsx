@@ -1,5 +1,6 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Dimensions, StyleSheet, View } from 'react-native';
-import Config from 'react-native-config';
+
 import MapView, { LatLng, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import {
   APP_MAP_STYLE,
@@ -47,7 +48,6 @@ export function TrackingOrdersMapComponent({
 
   const [index, setIndex] = useState(0);
 
-  const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY ?? '';
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -82,14 +82,15 @@ export function TrackingOrdersMapComponent({
     });
   };
 
-  const CarouselCardItem = ({ index, dataIndex, item }: any) => {
+  const CarouselCardItem = ({ index, item }: any) => {
     return (
       <SelectedOrderCard
         key={index}
         serviceOrder={item}
         onCancel={() => console.log('onCancel')}
         onConfirm={() => goToAssignedOrderDetailModal(item?.id)}
-        onClose={() => setSelectedOrder(null)}></SelectedOrderCard>
+        onClose={() => setSelectedOrder(null)}
+      />
     );
   };
 
@@ -123,8 +124,7 @@ export function TrackingOrdersMapComponent({
           selectedOrderKey={`${selectedOrder?.id}`}
           onOrderSelected={onOrderSelected}
         />
-        <TrackingOrdersRouteComponent
-          coordinates={mapDirectionsMarkers}></TrackingOrdersRouteComponent>
+        <TrackingOrdersRouteComponent coordinates={mapDirectionsMarkers} />
       </MapView>
 
       {selectedOrder && (
@@ -144,25 +144,14 @@ export function TrackingOrdersMapComponent({
           />
           <Button
             onPress={() => goToAssignedOrderDetailModal(selectedOrder?.id)}
-            containerStyle={{
-              width: '60%',
-              flex: 1,
-              alignSelf: 'center',
-              borderRadius: 16,
-            }}>
+            containerStyle={styles.buttonStyle}>
             Adjuntar
           </Button>
           <Pagination
             dotsLength={assignedServiceOrders.length}
             activeDotIndex={index}
             carouselRef={ref}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.92)',
-            }}
+            dotStyle={styles.paginationDotStyle}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
             tappableDots={true}
@@ -190,5 +179,18 @@ const styles = StyleSheet.create({
     flex: 1,
     bottom: '5%',
     position: 'absolute',
+  },
+  buttonStyle: {
+    width: '60%',
+    flex: 1,
+    alignSelf: 'center',
+    borderRadius: 16,
+  },
+  paginationDotStyle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.92)',
   },
 });

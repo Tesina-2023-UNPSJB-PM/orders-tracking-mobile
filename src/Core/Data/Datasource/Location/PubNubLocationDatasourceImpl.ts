@@ -49,10 +49,6 @@ export class PubNubLocationDatasourceImpl implements LocationDatasource {
 }
 
 const onMessageReceived = async (message: any) => {
-  console.log(
-    '🚀 ~ file: PubNubLocationDatasourceImpl.ts:52 ~ onMessageReceived ~ message:',
-    message,
-  );
   notifee.createChannel({
     id: 'default',
     name: 'Default Channel',
@@ -79,8 +75,9 @@ const notificationActionHandler = async (
   if (type === EventType.PRESS) {
     eventEmitter.emit('notificationReceived', notification);
     const id = notification?.id;
+    handler?.();
     if (!id) return;
     await notifee.cancelNotification(id);
-    handler?.();
+    
   }
 };
