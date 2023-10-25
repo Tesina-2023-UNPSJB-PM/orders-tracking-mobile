@@ -43,6 +43,7 @@ export class RNLocationRepositoryImpl implements LocationRepository {
       locations => {
         success(locations);
         const [location] = locations;
+        console.log('new address', location.latitude, location.longitude);
         const currentUser = this.authDatasource.getCurrentUser();
         if (currentUser) {
           const { username, firstName, lastName, id } = currentUser.userProfile;

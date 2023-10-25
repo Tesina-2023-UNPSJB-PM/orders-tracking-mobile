@@ -40,8 +40,8 @@ export function OrdersMapView({
         setRegion({
           latitude: location.latitude,
           longitude: location.longitude,
-          latitudeDelta: 0,
-          longitudeDelta: 0,
+          latitudeDelta: 0.025,
+          longitudeDelta: 0.025,
         });
       },
     });

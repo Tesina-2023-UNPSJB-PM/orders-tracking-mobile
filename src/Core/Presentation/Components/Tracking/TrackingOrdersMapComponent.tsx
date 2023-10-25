@@ -45,7 +45,7 @@ export function TrackingOrdersMapComponent({
   serviceOrdersRepository,
 }: TrackingOrdersMapComponentOptions) {
   const ref = useRef<any>();
-
+  const mapRef = useRef<any>();
   const [index, setIndex] = useState(0);
 
   const navigation =
@@ -106,15 +106,23 @@ export function TrackingOrdersMapComponent({
     ),
   ];
 
+  setTimeout(() => {
+    mapRef?.current?.fitToCoordinates(mapDirectionsMarkers, {
+      edgePadding: { top: 2, right: 2, bottom: 2, left: 2 },
+      animated: true,
+    });
+  }, 100);
+
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
         zoomControlEnabled={true}
         minZoomLevel={APP_MIN_ZOOM_LEVEL}
         maxZoomLevel={APP_MAX_ZOOM_LEVEL}
         provider={PROVIDER_GOOGLE}
-        region={region}
+        //region={region}
         customMapStyle={APP_MAP_STYLE}>
         <CurrentEmployeeLocationMapComponent coordinate={coordinate} />
         <AssignedOrdersMapComponent
